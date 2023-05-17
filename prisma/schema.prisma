@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["public", "auth"]
+}
+
+model Player {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  imageUri String?
+  teams    Team[]
+  shots    Attempt[] @relation("playerShots")
+  assists  Attempt[] @relation("playerAssists")
+  goalie   Attempt[] @relation("playerAsGoalie")
+  gamedays Gameday[]
+  fouls    Foul[]
+
+  @@schema("public")
+}
+
+model Foul {
+  id       Int     @id @default(autoincrement())
+  card     String?
+  time     Int?
+  x        Float?
+  y        Float?
+  game     Game    @relation(fields: [gameId], references: [id])
+  gameId   Int
+  player   Player  @relation(fields: [playerId], references: [id])
+  playerId Int
+
+  @@schema("public")
+}
+
+model Game {
+  id         Int       @id @default(autoincrement())
+  date       DateTime  @default(now())
+  attempts   Attempt[]
+  fouls      Foul[]
+  Gameday    Gameday?  @relation(fields: [gamedayId], references: [id])
+  gamedayId  Int?
+  scoreTeamA Int       @default(0)
+  scoreTeamB Int       @default(0)
+  teamA      Team      @relation("teamA", fields: [teamAId], references: [id])
+  teamAId    Int
+  teamB      Team      @relation("teamB", fields: [teamBId], references: [id])
+  teamBId    Int
+  winner     Team?     @relation("winner", fields: [winnerId], references: [id])
+  winnerId   Int?
+  finished   Boolean   @default(false)
+
+  @@schema("public")
+}
+
+model Team {
+  id      Int      @id @default(autoincrement())
+  name    String?
+  color   String?
+  players Player[]
+  teamA   Game[]   @relation("teamA")
+  teamB   Game[]   @relation("teamB")
+  winner  Game[]   @relation("winner")
+
+  @@schema("public")
+}
+
+model Gameday {
+  id        Int      @id @default(autoincrement())
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  games     Game[]
+  players   Player[]
+
+  @@schema("public")
+}
+
+model Attempt {
+  id         Int     @id @default(autoincrement())
+  time       Int
+  distance   Float?
+  x          Float?
+  y          Float?
+  goal       Boolean @default(false)
+  autogoal   Boolean @default(false)
+  penalty    Boolean @default(false)
+  onTarget   Boolean @default(false)
+  shooter    Player  @relation("playerShots", fields: [shooterId], references: [id])
+  shooterId  Int
+  Game       Game    @relation(fields: [gameId], references: [id])
+  gameId     Int
+  assisted   Player? @relation("playerAssists", fields: [assistedId], references: [id])
+  assistedId Int?
+  goalie     Player? @relation("playerAsGoalie", fields: [goalieId], references: [id])
+  goalieId   Int?
+
+  @@schema("public")
+}

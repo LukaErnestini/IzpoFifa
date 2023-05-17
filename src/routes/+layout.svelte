@@ -1,53 +1,53 @@
-<script>
-	import Header from './Header.svelte';
-	import './styles.css';
+<!-- src/routes/+layout.svelte -->
+<script lang="ts">
+	import '../app.css';
+	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import Icon from '@iconify/svelte';
+
+	export let data;
+
+	$: ({ supabase, session } = data);
+
+	onMount(() => {
+		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
+
+		return () => data.subscription.unsubscribe();
+	});
 </script>
 
-<div class="app">
-	<Header />
+<svelte:head>
+	<title>Izpo-Fifa</title>
+</svelte:head>
 
-	<main>
-		<slot />
-	</main>
+{#if data.session?.user}
+	<div class="navbar bg-base-300">
+		<div class="flex-1">
+			<span class="btn btn-ghost normal-case text-xl">daisyUI</span>
+		</div>
+		<div class="flex-none">
+			<div class="dropdown dropdown-end">
+				<button tabindex="0" class="btn btn-ghost rounded-btn">
+					<Icon width="24" icon="material-symbols:menu-rounded" />
+				</button>
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-200 rounded-box w-32 mt-4">
+					<li><a href="/gameday">Gameday</a></li>
+					<li><a href="/stats">Stats</a></li>
+					<li><a href="/settings">Settings</a></li>
+					<li>
+						<form action="/?/signout" method="post">
+							<button class="text-warning">Log Out</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{/if}
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div>
-
-<style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
-</style>
+<slot />
