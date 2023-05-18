@@ -5,7 +5,7 @@ import type { Actions } from './$types';
 export async function load({ locals: { getSession } }) {
 	const session = await getSession();
 	if (session) {
-		throw redirect(307, '/stats');
+		throw redirect(307, '/a/stats');
 	}
 }
 
@@ -38,7 +38,7 @@ export const actions = {
 			});
 		}
 
-		throw redirect(303, '/stats');
+		throw redirect(303, '/a/stats');
 	},
 
 	signout: async ({ locals: { supabase } }) => {

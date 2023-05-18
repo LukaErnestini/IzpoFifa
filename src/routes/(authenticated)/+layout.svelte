@@ -13,9 +13,9 @@
 			</button>
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-200 rounded-box w-32 mt-4">
-				<li><a href="/gameday">Gameday</a></li>
-				<li><a href="/stats">Stats</a></li>
-				<li><a href="/settings">Settings</a></li>
+				<li><a href="/a/gameday">Gameday</a></li>
+				<li><a href="/a/stats">Stats</a></li>
+				<li><a href="/a/settings">Settings</a></li>
 				<li>
 					<form action="/?/signout" method="post">
 						<button class="text-warning">Log Out</button>
@@ -25,3 +25,5 @@
 		</div>
 	</div>
 </div>
+
+<slot />
