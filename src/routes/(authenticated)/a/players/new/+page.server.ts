@@ -16,7 +16,9 @@ export const actions = {
 			return fail(400, { error: true, message: 'Missing name' });
 		}
 		try {
-			const exists = await prisma.player.findFirst({ where: { name, userId } });
+			const exists = await prisma.player.findFirst({
+				where: { name: { equals: name, mode: 'insensitive' }, userId }
+			});
 			if (exists) {
 				return fail(409, { error: true, message: 'Player by that name already exists' });
 			}
