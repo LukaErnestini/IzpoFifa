@@ -35,7 +35,7 @@ export const actions = {
 					userId,
 					color: '#' + genRanHex(6),
 					name: createTeamName([newPlayer.name]),
-					Player: { connect: [{ id: newPlayer.id }] }
+					players: { connect: [{ id: newPlayer.id }] }
 				}
 			});
 
@@ -46,7 +46,7 @@ export const actions = {
 						userId,
 						color: '#' + genRanHex(6),
 						name: createTeamName([newPlayer.name, players[i].name]),
-						Player: {
+						players: {
 							connect: [{ id: players[i].id }, { id: newPlayer.id }]
 						}
 					}

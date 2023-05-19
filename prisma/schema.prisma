@@ -7,29 +7,19 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-  schemas   = ["public"]
 }
 
-model Attempt {
-  id                                Int     @id @default(autoincrement())
-  time                              Int
-  distance                          Float?
-  x                                 Float?
-  y                                 Float?
-  goal                              Boolean @default(false)
-  autogoal                          Boolean @default(false)
-  penalty                           Boolean @default(false)
-  onTarget                          Boolean @default(false)
-  shooterId                         Int
-  gameId                            Int
-  assistedId                        Int?
-  goalieId                          Int?
-  Player_Attempt_assistedIdToPlayer Player? @relation("Attempt_assistedIdToPlayer", fields: [assistedId], references: [id])
-  Game                              Game    @relation(fields: [gameId], references: [id])
-  Player_Attempt_goalieIdToPlayer   Player? @relation("Attempt_goalieIdToPlayer", fields: [goalieId], references: [id])
-  Player_Attempt_shooterIdToPlayer  Player  @relation("Attempt_shooterIdToPlayer", fields: [shooterId], references: [id])
-
-  @@schema("public")
+model Player {
+  id       Int       @id @default(autoincrement())
+  name     String
+  imageUri String?
+  teams    Team[]
+  shots    Attempt[] @relation("playerShots")
+  assists  Attempt[] @relation("playerAssists")
+  goalie   Attempt[] @relation("playerAsGoalie")
+  gamedays Gameday[]
+  fouls    Foul[]
+  userId   String
 }
 
 model Foul {
@@ -38,69 +28,66 @@ model Foul {
   time     Int?
   x        Float?
   y        Float?
+  game     Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
   gameId   Int
+  player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId Int
-  Game     Game    @relation(fields: [gameId], references: [id])
-  Player   Player  @relation(fields: [playerId], references: [id])
-
-  @@schema("public")
 }
 
 model Game {
-  id                       Int       @id @default(autoincrement())
-  date                     DateTime  @default(now())
-  gamedayId                Int?
-  scoreTeamA               Int       @default(0)
-  scoreTeamB               Int       @default(0)
-  teamAId                  Int
-  teamBId                  Int
-  winnerId                 Int?
-  finished                 Boolean   @default(false)
-  Attempt                  Attempt[]
-  Foul                     Foul[]
-  Gameday                  Gameday?  @relation(fields: [gamedayId], references: [id])
-  Team_Game_teamAIdToTeam  Team      @relation("Game_teamAIdToTeam", fields: [teamAId], references: [id])
-  Team_Game_teamBIdToTeam  Team      @relation("Game_teamBIdToTeam", fields: [teamBId], references: [id])
-  Team_Game_winnerIdToTeam Team?     @relation("Game_winnerIdToTeam", fields: [winnerId], references: [id])
+  id         Int       @id @default(autoincrement())
+  date       DateTime  @default(now())
+  attempts   Attempt[]
+  fouls      Foul[]
+  Gameday    Gameday  @relation(fields: [gamedayId], references: [id], onDelete: Cascade)
+  gamedayId  Int
+  scoreTeamA Int       @default(0)
+  scoreTeamB Int       @default(0)
+  teamA      Team      @relation("teamA", fields: [teamAId], references: [id], onDelete: Cascade)
+  teamAId    Int
+  teamB      Team      @relation("teamB", fields: [teamBId], references: [id], onDelete: Cascade)
+  teamBId    Int
+  winner     Team?     @relation("winner", fields: [winnerId], references: [id])
+  winnerId   Int?
+  finished   Boolean   @default(false)
+}
 
-  @@schema("public")
+model Team {
+  id      Int      @id @default(autoincrement())
+  name    String?
+  color   String?
+  players Player[]
+  teamA   Game[]   @relation("teamA")
+  teamB   Game[]   @relation("teamB")
+  winner  Game[]   @relation("winner")
+  userId  String
 }
 
 model Gameday {
   id        Int      @id @default(autoincrement())
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
+  games     Game[]
+  players   Player[]
   userId    String
-  Game      Game[]
-  Player    Player[]
-
-  @@schema("public")
 }
 
-model Player {
-  id                                 Int       @id @default(autoincrement())
-  name                               String    
-  imageUri                           String?
-  userId                             String
-  Attempt_Attempt_assistedIdToPlayer Attempt[] @relation("Attempt_assistedIdToPlayer")
-  Attempt_Attempt_goalieIdToPlayer   Attempt[] @relation("Attempt_goalieIdToPlayer")
-  Attempt_Attempt_shooterIdToPlayer  Attempt[] @relation("Attempt_shooterIdToPlayer")
-  Foul                               Foul[]
-  Gameday                            Gameday[]
-  Team                               Team[]
-
-  @@schema("public")
-}
-
-model Team {
-  id                       Int      @id @default(autoincrement())
-  name                     String?
-  color                    String?
-  Game_Game_teamAIdToTeam  Game[]   @relation("Game_teamAIdToTeam")
-  Game_Game_teamBIdToTeam  Game[]   @relation("Game_teamBIdToTeam")
-  Game_Game_winnerIdToTeam Game[]   @relation("Game_winnerIdToTeam")
-  Player                   Player[]
-  userId  String
-
-  @@schema("public")
+model Attempt {
+  id         Int     @id @default(autoincrement())
+  time       Int
+  distance   Float?
+  x          Float?
+  y          Float?
+  goal       Boolean @default(false)
+  autogoal   Boolean @default(false)
+  penalty    Boolean @default(false)
+  onTarget   Boolean @default(false)
+  shooter    Player  @relation("playerShots", fields: [shooterId], references: [id], onDelete: Cascade)
+  shooterId  Int
+  Game       Game    @relation(fields: [gameId], references: [id])
+  gameId     Int
+  assisted   Player? @relation("playerAssists", fields: [assistedId], references: [id])
+  assistedId Int?
+  goalie     Player? @relation("playerAsGoalie", fields: [goalieId], references: [id])
+  goalieId   Int?
 }
