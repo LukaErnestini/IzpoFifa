@@ -4,7 +4,7 @@
 	export let form;
 </script>
 
-<form method="post">
+<form class="flex flex-col items-center p-4 gap-2" method="post">
 	{#if form?.error}
 		<div class="alert alert-warning shadow-lg">
 			<div>

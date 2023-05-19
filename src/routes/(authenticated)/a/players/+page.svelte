@@ -5,9 +5,8 @@
 	export let data;
 </script>
 
-<a class="btn" href="players/new">NEW PLAYER</a>
 {#each data.players as player}
-	<div>
+	<div class="flex justify-between px-4 py-1 mt-2">
 		<a href="players/{player.id}">{player.name}</a>
 		<form action="?/delete" method="post" use:enhance>
 			<input type="hidden" name="id" value={player.id} />
@@ -17,3 +16,7 @@
 		</form>
 	</div>
 {/each}
+
+<div class="flex flex-row-reverse p-4">
+	<a class="btn" href="players/new">NEW PLAYER</a>
+</div>
