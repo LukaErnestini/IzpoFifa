@@ -5,7 +5,7 @@
 </script>
 
 <form method="post">
-	{#if form?.exists}
+	{#if form?.error}
 		<div class="alert alert-warning shadow-lg">
 			<div>
 				<Icon icon="material-symbols:warning-outline-rounded" />
