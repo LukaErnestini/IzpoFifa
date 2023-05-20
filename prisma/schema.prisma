@@ -10,14 +10,14 @@ datasource db {
 }
 
 model Player {
-  id       Int       @id @default(autoincrement())
+  id       Int                @id @default(autoincrement())
   name     String
   imageUri String?
-  teams    Team[]
-  shots    Attempt[] @relation("playerShots")
-  assists  Attempt[] @relation("playerAssists")
-  goalie   Attempt[] @relation("playerAsGoalie")
-  gamedays Gameday[]
+  teams    PlayersInTeam[]
+  shots    Attempt[]          @relation("playerShots")
+  assists  Attempt[]          @relation("playerAssists")
+  goalie   Attempt[]          @relation("playerAsGoalie")
+  gamedays PlayersInGameday[]
   fouls    Foul[]
   userId   String
 }
@@ -39,7 +39,7 @@ model Game {
   date       DateTime  @default(now())
   attempts   Attempt[]
   fouls      Foul[]
-  Gameday    Gameday  @relation(fields: [gamedayId], references: [id], onDelete: Cascade)
+  Gameday    Gameday   @relation(fields: [gamedayId], references: [id], onDelete: Cascade)
   gamedayId  Int
   scoreTeamA Int       @default(0)
   scoreTeamB Int       @default(0)
@@ -53,23 +53,41 @@ model Game {
 }
 
 model Team {
-  id      Int      @id @default(autoincrement())
+  id      Int             @id @default(autoincrement())
   name    String?
   color   String?
-  players Player[]
-  teamA   Game[]   @relation("teamA")
-  teamB   Game[]   @relation("teamB")
-  winner  Game[]   @relation("winner")
+  players PlayersInTeam[]
+  teamA   Game[]          @relation("teamA")
+  teamB   Game[]          @relation("teamB")
+  winner  Game[]          @relation("winner")
   userId  String
 }
 
+model PlayersInTeam {
+  team     Team   @relation(fields: [teamId], references: [id])
+  teamId   Int
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId Int
+
+  @@id([teamId, playerId])
+}
+
 model Gameday {
-  id        Int      @id @default(autoincrement())
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id        Int                @id @default(autoincrement())
+  active    Boolean            @default(true)
+  createdAt DateTime           @default(now())
   games     Game[]
-  players   Player[]
+  players   PlayersInGameday[]
   userId    String
+}
+
+model PlayersInGameday {
+  gameday   Gameday @relation(fields: [gamedayId], references: [id])
+  gamedayId Int
+  player    Player  @relation(fields: [playerId], references: [id])
+  playerId  Int
+
+  @@id([gamedayId, playerId])
 }
 
 model Attempt {
