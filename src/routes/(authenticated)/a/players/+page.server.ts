@@ -26,7 +26,11 @@ export const actions = {
 				return fail(401, { message: 'Unauthorized' });
 			}
 
-			// Delete should cascade to all associated teams and games
+			// Cascade only deletes the row in pivot table, so the team must be deleted manually
+			await prisma.team.deleteMany({
+				where: { players: { some: { playerId: player.id } } }
+			});
+
 			// https://www.prisma.io/docs/concepts/components/prisma-schema/relations/referential-actions#referential-action-defaults
 			await prisma.player.delete({
 				where: { id: +id }
