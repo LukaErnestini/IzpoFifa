@@ -3,8 +3,10 @@ import type { Session } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load = (async () => {
-	const players = await prisma.player.findMany();
+export const load = (async ({ locals }) => {
+	const session = (await locals.getSession()) as Session;
+	const userId = session.user.id;
+	const players = await prisma.player.findMany({ where: { userId } });
 	return { players };
 }) satisfies PageServerLoad;
 
