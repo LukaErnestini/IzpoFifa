@@ -5,6 +5,9 @@
 	export let data;
 </script>
 
+{#if !data.players.length}
+	<p>No players yet.</p>
+{/if}
 {#each data.players as player}
 	<div class="flex justify-between px-4 py-1 mt-2">
 		<a href="players/{player.id}">{player.name}</a>

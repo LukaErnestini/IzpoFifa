@@ -2,6 +2,9 @@
 	export let data;
 </script>
 
+{#if !data.teams.length}
+	<p>No teams yet.</p>
+{/if}
 <div class="flex flex-wrap justify-start p-4 gap-4">
 	{#each data.teams as team, i}
 		<a
