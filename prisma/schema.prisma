@@ -64,7 +64,7 @@ model Team {
 }
 
 model PlayersInTeam {
-  team     Team   @relation(fields: [teamId], references: [id])
+  team     Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
   teamId   Int
   player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId Int
