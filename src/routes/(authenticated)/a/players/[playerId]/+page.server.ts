@@ -23,6 +23,8 @@ export const actions = {
 		const id = data.get('id') as string;
 		const file = data.get('image') as File | null;
 
+		// TODO: Delete old image if it exists
+
 		try {
 			if (file?.size) {
 				const ext = file?.name.split('.').pop();
