@@ -8,10 +8,7 @@
 		return team.id === +$page.params.teamId;
 	});
 
-	let hex: string;
-	if (team?.color) {
-		hex = team.color;
-	}
+	let hex = team?.color ? team.color : undefined;
 </script>
 
 <!-- TODO design it prettier -->
