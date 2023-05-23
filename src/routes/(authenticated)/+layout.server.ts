@@ -1,18 +1,18 @@
 import prisma from '$lib/prisma';
+import type { LayoutServerLoad } from './$types';
 import type { Session } from '@supabase/supabase-js';
-import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async ({ params, locals }) => {
+export const load: LayoutServerLoad = async ({ locals }) => {
 	const session = (await locals.getSession()) as Session;
 	const userId = session.user.id;
 
-	const gameday = await prisma.gameday.findFirst({
+	const activeGameday = await prisma.gameday.findFirst({
 		where: { active: true, userId },
 		include: {
 			games: {
 				include: {
 					teamA: { include: { teamA: true } },
-					teamB: true,
+					teamB: { include: { teamB: true } },
 					winner: true
 				},
 				orderBy: { id: 'asc' }
@@ -20,8 +20,6 @@ export const load = (async ({ params, locals }) => {
 			players: { include: { player: true } }
 		}
 	});
-
-	if (gameday) return { gameday };
 
 	const finishedGamedays = await prisma.gameday.findMany({
 		where: { active: false, userId },
@@ -45,5 +43,10 @@ export const load = (async ({ params, locals }) => {
 
 	const players = await prisma.player.findMany({ where: { userId } });
 
-	return { teams, finishedGamedays, players };
-}) satisfies PageServerLoad;
+	return {
+		activeGameday,
+		finishedGamedays,
+		teams,
+		players
+	};
+};

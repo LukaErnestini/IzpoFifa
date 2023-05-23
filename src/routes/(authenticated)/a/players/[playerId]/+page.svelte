@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import PlayerAvatarSelect from '$lib/components/players/PlayerAvatarSelect.svelte';
 	import type { Player } from '@prisma/client';
 	import Compressor from 'compressorjs';
@@ -8,7 +9,10 @@
 	let fileInput: HTMLInputElement;
 	let imageSrc: string | null | undefined = undefined;
 	let form: HTMLFormElement;
-	const player = data.player as Player;
+	// const player = data.player as Player;
+	const player = data.players.find((player) => {
+		return player.id === +$page.params.playerId;
+	});
 
 	if (player?.imageUri) {
 		imageSrc = player.imageUri;
@@ -37,7 +41,7 @@
 					// Prepare form data for submission
 					const formData = new FormData();
 					formData.append('image', result);
-					formData.append('id', player.id.toString());
+					formData.append('id', player ? player.id.toString() : '');
 
 					// Submit the form
 					fetch(form.action, {
@@ -61,13 +65,21 @@
 	}
 </script>
 
-<form action="?/save" method="post" enctype="multipart/form-data" bind:this={form}>
-	<div class="py-2 cursor-pointer w-fit" on:click={triggerFileInput} on:keydown={triggerFileInput}>
-		<PlayerAvatarSelect name={player?.name} width={'10rem'} imageUri={imageSrc} />
-		<input type="file" name="image" bind:this={fileInput} hidden on:change={swapImage} />
-	</div>
+{#if !player}
+	<h1>404 - Player Not Found</h1>
+{:else}
+	<form action="?/save" method="post" enctype="multipart/form-data" bind:this={form}>
+		<div
+			class="py-2 cursor-pointer w-fit"
+			on:click={triggerFileInput}
+			on:keydown={triggerFileInput}
+		>
+			<PlayerAvatarSelect name={player?.name} width={'10rem'} imageUri={imageSrc} />
+			<input type="file" name="image" bind:this={fileInput} hidden on:change={swapImage} />
+		</div>
 
-	<input type="hidden" name="id" value={player?.id} />
-	<!-- <button formaction="?/delete" class="btn btn-warning">DELETE</button> -->
-	<!-- <button class="btn">SAVE</button> -->
-</form>
+		<input type="hidden" name="id" value={player?.id} />
+		<!-- <button formaction="?/delete" class="btn btn-warning">DELETE</button> -->
+		<!-- <button class="btn">SAVE</button> -->
+	</form>
+{/if}

@@ -1,24 +1,10 @@
 import prisma from '$lib/prisma';
-import type { Session } from '@supabase/supabase-js';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { nanoid } from 'nanoid';
-import type { Actions, PageServerLoad } from './$types';
-
-export const load = (async ({ params, locals }) => {
-	const session = (await locals.getSession()) as Session;
-	const userId = session.user.id;
-	const id = +params.playerId;
-	const player = await prisma.player.findFirst({ where: { id, userId } });
-
-	if (!player) {
-		return fail(404, { error: 'Player not found' });
-	}
-
-	return { player };
-}) satisfies PageServerLoad;
+import type { Actions } from './$types';
 
 export const actions = {
-	save: async ({ request, fetch, locals: { supabase } }) => {
+	save: async ({ request, locals: { supabase } }) => {
 		const data = await request.formData();
 		const id = data.get('id') as string;
 		const file = data.get('image') as File | null;

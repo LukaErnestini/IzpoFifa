@@ -1,12 +1,6 @@
 import prisma from '$lib/prisma';
 import { redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-
-export const load = (async ({ params }) => {
-	const id = +params.teamId;
-	const team = await prisma.team.findFirst({ where: { id } });
-	return { team };
-}) satisfies PageServerLoad;
+import type { Actions } from './$types';
 
 export const actions = {
 	save: async ({ request }) => {

@@ -3,11 +3,11 @@
 	import CreateGd from './CreateGD.svelte';
 
 	export let data;
-	console.log(data.gameday);
-	console.log(data.teams);
+	// console.log(data.activeGameday);
+	// console.log(data.teams);
 </script>
 
-{#if data.gameday}
+{#if data.activeGameday}
 	<!-- active gameday -->
 {:else}
 	<CreateGd players={data.players} />
