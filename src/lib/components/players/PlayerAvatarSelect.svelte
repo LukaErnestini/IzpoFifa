@@ -1,21 +1,24 @@
 <script lang="ts">
+	const placeholderImgUrl = 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg';
+
 	export let name = 'unknown';
 	export let width = '56px';
+	export let selectedWidth = '72px';
 	export let selected = false;
 	export let color = '';
-	export let imageUri: string | null | undefined =
-		'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg';
+	export let imageUri: string | null | undefined = placeholderImgUrl;
 
 	$: if (!imageUri) {
-		imageUri = 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg';
+		imageUri = placeholderImgUrl;
 	}
 
-	$: width = selected ? '72px' : '56px';
+	let currentWidth = width;
+	$: currentWidth = selected ? selectedWidth : width;
 </script>
 
 <div class="avatar block">
 	<div
-		style={`width: ${width}; --tw-ring-color: ${color}`}
+		style={`width: ${currentWidth}; --tw-ring-color: ${color}`}
 		class="rounded-full mx-auto
 			{color ? 'ring ring-offset-1' : ''}"
 	>
