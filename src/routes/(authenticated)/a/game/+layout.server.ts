@@ -3,28 +3,25 @@ import type { LayoutServerLoad } from './$types';
 import type { Session } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load: LayoutServerLoad = async ({ locals, parent }) => {
-	const session = (await locals.getSession()) as Session;
-	const userId = session.user.id;
+export const load: LayoutServerLoad = async ({ parent }) => {
 	const data = await parent();
 	if (!data.activeGameday) {
-		throw redirect(302, '/gameday');
+		throw redirect(302, 'gameday');
 	}
 	const gamedayId = data.activeGameday.id;
 
-	try {
-		const activeGame = await prisma.game.findFirst({
-			where: { gamedayId, finished: false },
-			include: {
-				teamA: { include: { players: { include: { player: true } } } },
-				teamB: { include: { players: { include: { player: true } } } }
-			}
-		});
-
-		if (!activeGame) {
-			throw redirect(302, '/gameday');
+	// TODO is this okay outside trycatch? I moved it outside so I can throw redirect...
+	const activeGame = await prisma.game.findFirst({
+		where: { gamedayId, finished: false },
+		include: {
+			teamA: { include: { players: { include: { player: true } } } },
+			teamB: { include: { players: { include: { player: true } } } }
 		}
+	});
 
+	if (!activeGame) throw redirect(302, 'gameday');
+
+	try {
 		const attempts = await prisma.attempt.findMany({
 			where: { gameId: activeGame.id },
 			orderBy: { time: 'desc' }

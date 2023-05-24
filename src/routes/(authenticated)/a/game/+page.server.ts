@@ -4,9 +4,13 @@ import { error, fail } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
 
+// TODO [security]: allow only owner of gameday to edit game day related data
+// currently a user could edit gameId input field and thus edit games belonging to some other user
+
 export const actions: Actions = {
 	attempt: async ({ request }) => {
 		const data = await request.formData();
+		const gameId = data.get('gameId') ? +(data.get('gameId') as string) : undefined;
 		const shooterId = data.get('shooter') ? +(data.get('shooter') as string) : undefined;
 		if (!shooterId) return fail(400, { error: 'A shooter must be selected.', tag: 'shooter' });
 		const goal = data.get('goal') ? true : false;
@@ -19,7 +23,6 @@ export const actions: Actions = {
 		const distance = data.get('distance') ? +(data.get('distance') as string) : -1;
 		const assistedId = data.get('assisted') ? +(data.get('assisted') as string) : undefined;
 		const goalieId = data.get('goalie') ? +(data.get('goalie') as string) : undefined;
-		const gameId = data.get('gameId') ? +(data.get('gameId') as string) : undefined;
 
 		try {
 			const attempt = await prisma.attempt.create({
@@ -68,6 +71,25 @@ export const actions: Actions = {
 		} catch (error) {
 			console.log(error);
 			throw fail(500, { error: 'An unexpected error occured.' });
+		}
+	},
+	endGame: async ({ request }) => {
+		try {
+			const data = await request.formData();
+			const gameId = data.get('gameId') ? +(data.get('gameId') as string) : undefined;
+			const game = await prisma.game.findFirst({ where: { id: gameId } });
+			if (!game) throw fail(404, { error: 'Game not found.' });
+
+			let winnerId: number | null = null; // null = draw
+			if (game.scoreTeamA > game.scoreTeamB) winnerId = game.teamAId;
+			else if (game.scoreTeamA < game.scoreTeamB) winnerId = game.teamBId;
+
+			await prisma.game.update({
+				where: { id: game.id },
+				data: { finished: true, winnerId }
+			});
+		} catch (error) {
+			console.log(error);
 		}
 	}
 };
