@@ -49,6 +49,26 @@ export const actions: Actions = {
 	},
 	yellow: async ({ request }) => {
 		await card('yellow', request);
+	},
+	removeAttempt: async ({ request }) => {
+		const data = await request.formData();
+		const id = +(data.get('id') as string);
+		try {
+			await prisma.attempt.delete({ where: { id } });
+		} catch (error) {
+			console.log(error);
+			throw fail(500, { error: 'An unexpected error occured.' });
+		}
+	},
+	removeFoul: async ({ request }) => {
+		const data = await request.formData();
+		const id = +(data.get('foulId') as string);
+		try {
+			await prisma.foul.delete({ where: { id } });
+		} catch (error) {
+			console.log(error);
+			throw fail(500, { error: 'An unexpected error occured.' });
+		}
 	}
 };
 

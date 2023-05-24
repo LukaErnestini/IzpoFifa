@@ -86,7 +86,7 @@
 							{/if}
 						</td>
 						<td class="px-0 pr-2">
-							<form action="?/removeLog" method="post" use:enhance>
+							<form action="?/removeAttempt" method="post" use:enhance>
 								<input type="hidden" name="id" value={a.id} />
 								<button>
 									<Icon icon="system-uicons:cross-circle" class="text-error" width="24" />
