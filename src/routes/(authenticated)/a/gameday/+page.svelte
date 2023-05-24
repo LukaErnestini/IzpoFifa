@@ -12,10 +12,6 @@
 	// console.log(data.activeGameday);
 	// console.log(data.teams);
 	// console.log(data.activeGameday);
-
-	let activeGame: Game | undefined;
-	$: activeGame = data.activeGameday?.games.find((game) => !game.finished);
-	// TODO Redirect to /game if activeGame
 </script>
 
 {#if form?.error}
@@ -29,9 +25,8 @@
 	</div>
 {/if}
 {#if data.activeGameday}
-	{#if activeGame}
-		<!-- TODO -->
-		<p>a game is active</p>
+	{#if data.activeGame}
+		<p>A game is active. You should have been redirected and not be shown this message.</p>
 	{:else}
 		<!-- TODO design -->
 		<CreateGame
