@@ -13,12 +13,9 @@
 	// console.log(data.teams);
 	// console.log(data.activeGameday);
 
-	// $: if (data.activeGameday) {
-	// 	goto('game');
-	// }
-
 	let activeGame: Game | undefined;
 	$: activeGame = data.activeGameday?.games.find((game) => !game.finished);
+	// TODO Redirect to /game if activeGame
 </script>
 
 {#if form?.error}

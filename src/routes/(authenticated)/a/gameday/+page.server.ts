@@ -1,8 +1,6 @@
 import prisma from '$lib/prisma';
-import type { Gameday } from '@prisma/client';
 import type { Session } from '@supabase/supabase-js';
 import { error, fail } from '@sveltejs/kit';
-
 import type { Actions } from './$types';
 
 export const actions: Actions = {
