@@ -9,7 +9,7 @@ export const actions: Actions = {
 		const userId = session.user.id;
 
 		try {
-			const activeGameday = await prisma.gameday.findFirst({ where: { active: true } });
+			const activeGameday = await prisma.gameday.findFirst({ where: { userId, active: true } });
 			if (activeGameday) {
 				throw error(409, 'Active gameday already exists. End it first.');
 			}
