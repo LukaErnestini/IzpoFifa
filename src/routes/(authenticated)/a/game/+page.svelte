@@ -142,8 +142,8 @@
 		</div>
 	</div>
 
-	<!-- TODO ADD ATTEMPTS DISPLAY -->
 	<EventsLog attempts={data.attempts} fouls={data.fouls} players={data.players} />
+
 	<div class="flex w-full justify-center">
 		<!-- TODO Add modal to confirm -->
 		<button formaction="?/endGame" class="btn btn-wide btn-error btn-sm m-4">End Game</button>
