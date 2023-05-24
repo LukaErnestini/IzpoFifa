@@ -26,11 +26,13 @@ export const load: LayoutServerLoad = async ({ locals, parent }) => {
 		}
 
 		const attempts = await prisma.attempt.findMany({
-			where: { gameId: activeGame.id }
+			where: { gameId: activeGame.id },
+			orderBy: { time: 'desc' }
 		});
 
 		const fouls = await prisma.foul.findMany({
-			where: { gameId: activeGame.id }
+			where: { gameId: activeGame.id },
+			orderBy: { time: 'desc' }
 		});
 
 		return { activeGame, attempts, fouls };
