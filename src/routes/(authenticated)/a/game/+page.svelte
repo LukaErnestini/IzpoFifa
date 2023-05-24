@@ -14,8 +14,10 @@
 	import HalfSoccerPitchInput from './HalfSoccerPitchInput.svelte';
 	import AttemptTypeSelect from './AttemptTypeSelect.svelte';
 	import { onMount } from 'svelte';
+	import Icon from '@iconify/svelte';
 
 	export let data;
+	export let form;
 
 	let attempts = data.attempts;
 	let activeGame = data.activeGame;
@@ -97,10 +99,22 @@
 	});
 </script>
 
+{#if form?.error}
+	<div class="px-1">
+		<div class="alert alert-error shadow-lg">
+			<div>
+				<Icon icon="material-symbols:error-outline-rounded" color="red" />
+				<span>{form.error}</span>
+			</div>
+		</div>
+	</div>
+{/if}
 <form action="?/attempt" method="post" use:enhance={addEvent}>
 	<div class="form-control m-4 gap-6">
 		<TimeInput {time} />
-		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
+		<div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}>
+			<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
+		</div>
 		<SelectPlayersInput inputName="assisted" players={shooterTeammates} bind:selected={assist} />
 		<HalfSoccerPitchInput bind:x bind:y bind:distance />
 		<input type="checkbox" name="goal" bind:checked={goal} hidden />
