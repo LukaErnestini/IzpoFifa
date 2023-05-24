@@ -26,11 +26,14 @@ export const load: LayoutServerLoad = async ({ locals, parent }) => {
 		}
 
 		const attempts = await prisma.attempt.findMany({
-			where: { gameId: activeGame.id },
-			include: { shooter: true }
+			where: { gameId: activeGame.id }
 		});
 
-		return { activeGame, attempts };
+		const fouls = await prisma.foul.findMany({
+			where: { gameId: activeGame.id }
+		});
+
+		return { activeGame, attempts, fouls };
 	} catch (error) {
 		console.log(error);
 		throw fail(500, { error: 'Something went wrong' });
