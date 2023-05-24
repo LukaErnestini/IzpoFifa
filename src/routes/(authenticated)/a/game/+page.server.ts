@@ -43,6 +43,37 @@ export const actions: Actions = {
 			console.log(error);
 			fail(500, { error: 'An unexpected error occured.' });
 		}
+	},
+	red: async ({ request }) => {
+		await card('red', request);
+	},
+	yellow: async ({ request }) => {
+		await card('yellow', request);
+	}
+};
+
+const card = async (card: string, request: Request) => {
+	const data = await request.formData();
+	const time = data.get('time') ? +(data.get('time') as string) : null;
+	const shooterId = data.get('shooter') ? +(data.get('shooter') as string) : undefined;
+	const gameId = data.get('gameId') ? +(data.get('gameId') as string) : undefined;
+	const x = data.get('x') ? +(data.get('x') as string) : null;
+	const y = data.get('y') ? +(data.get('y') as string) : null;
+
+	try {
+		await prisma.foul.create({
+			data: {
+				card,
+				time,
+				x,
+				y,
+				game: { connect: { id: gameId } },
+				player: { connect: { id: shooterId } }
+			}
+		});
+	} catch (error) {
+		console.log(error);
+		fail(500, { error: 'Some error occured.' });
 	}
 };
 
