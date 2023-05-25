@@ -78,7 +78,7 @@
 <div>
 	{#if games}
 		{#each games as game}
-			<a href="/game/{game.id}" class="block">
+			<a href="/a/game/{game.id}" class="block">
 				<span class={game.winnerId === game.teamA.id ? 'text-lg text-success' : ''}
 					>{game.teamA.name}</span
 				>
