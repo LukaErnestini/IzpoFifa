@@ -1,6 +1,6 @@
 import prisma from '$lib/prisma';
-import { fail } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = +params.id;
@@ -19,5 +19,24 @@ export const load: PageServerLoad = async ({ params }) => {
 		console.log(error);
 		throw fail(500, { error: 'Something went wrong.' });
 	}
-	return {};
 };
+
+export const actions = {
+	remove: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id') ? +(data.get('id') as string) : undefined;
+
+		try {
+			console.log('removing game with id ' + id);
+			const deleteAttempts = prisma.attempt.deleteMany({ where: { gameId: id } });
+			const deleteFouls = prisma.foul.deleteMany({ where: { gameId: id } });
+			const deleteGames = prisma.game.delete({ where: { id } });
+			await prisma.$transaction([deleteAttempts, deleteFouls, deleteGames]);
+		} catch (error) {
+			console.log(error);
+			throw fail(500, { error: 'An unexpected error occured.' });
+		}
+		throw redirect(301, '/a/gameday');
+		// TODO check all HTTP codes in the app. Is their meaning correct?
+	}
+} satisfies Actions;
