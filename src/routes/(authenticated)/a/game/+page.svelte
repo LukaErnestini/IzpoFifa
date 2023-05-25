@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
 	import EventsLog from './EventsLog.svelte';
+	import ScoreBar from './ScoreBar.svelte';
 
 	export let data;
 	export let form;
@@ -99,6 +100,13 @@
 		window.scrollTo({ top: 64, behavior: 'smooth' });
 	});
 </script>
+
+<ScoreBar
+	scoreTeamA={data.activeGame.scoreTeamA}
+	scoreTeamB={data.activeGame.scoreTeamB}
+	teamA={data.activeGame.teamA}
+	teamB={data.activeGame.teamB}
+/>
 
 {#if form?.error}
 	<div class="px-1">

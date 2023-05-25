@@ -4,17 +4,10 @@
 	import { tweened } from 'svelte/motion';
 	import { hexToRGBA } from '$lib/util';
 
-	export let data;
-
-	let teamA: Team | undefined;
-	let teamB: Team | undefined;
-	let scoreTeamA: number | undefined;
-	let scoreTeamB: number | undefined;
-
-	$: teamA = data.activeGame?.teamA;
-	$: teamB = data.activeGame?.teamB;
-	$: scoreTeamA = data.activeGame?.scoreTeamA;
-	$: scoreTeamB = data.activeGame?.scoreTeamB;
+	export let teamA: Team | undefined;
+	export let teamB: Team | undefined;
+	export let scoreTeamA: number | undefined;
+	export let scoreTeamB: number | undefined;
 
 	const maxScoreDiff = 5;
 	let colorAhex: string,

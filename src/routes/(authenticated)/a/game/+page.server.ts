@@ -1,11 +1,46 @@
 import prisma from '$lib/prisma';
-import type { Session } from '@supabase/supabase-js';
-import { error, fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 import type { Actions } from './$types';
 
 // TODO [security]: allow only owner of gameday to edit game day related data
 // currently a user could edit gameId input field and thus edit games belonging to some other user
+
+export const load: PageServerLoad = async ({ parent }) => {
+	const data = await parent();
+	if (!data.activeGameday?.games.find((game) => !game.finished)) {
+		throw redirect(302, 'gameday');
+	}
+	const gamedayId = data.activeGameday.id;
+
+	try {
+		const activeGame = await prisma.game.findFirst({
+			where: { gamedayId, finished: false },
+			include: {
+				teamA: { include: { players: { include: { player: true } } } },
+				teamB: { include: { players: { include: { player: true } } } }
+			}
+		});
+
+		if (!activeGame) throw fail(404, { error: 'Game not found' });
+
+		const attempts = await prisma.attempt.findMany({
+			where: { gameId: activeGame.id },
+			orderBy: { time: 'desc' }
+		});
+
+		const fouls = await prisma.foul.findMany({
+			where: { gameId: activeGame.id },
+			orderBy: { time: 'desc' }
+		});
+
+		return { activeGame, attempts, fouls };
+	} catch (error) {
+		console.log(error);
+		throw fail(500, { error: 'Something went wrong' });
+	}
+};
 
 export const actions: Actions = {
 	attempt: async ({ request }) => {
