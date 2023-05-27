@@ -35,6 +35,12 @@
 			gamedayId={data.activeGameday.id}
 		/>
 		<!-- TODO display stats -->
+		<form action="?/end" method="post">
+			<div class="flex w-full justify-center">
+				<input type="hidden" name="id" value={data.activeGameday.id} />
+				<button formaction="?/end" class="btn btn-wide btn-warning m-4">End Gameday</button>
+			</div>
+		</form>
 	{/if}
 {:else}
 	<CreateGd players={data.players} />

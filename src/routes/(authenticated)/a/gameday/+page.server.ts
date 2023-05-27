@@ -100,5 +100,20 @@ export const actions: Actions = {
 			console.log(error);
 			throw fail(500, { error: 'Something went wrong.' });
 		}
+	},
+	end: async ({ request }) => {
+		const data = await request.formData();
+		const id = +((await data.get('id')) as string);
+
+		try {
+			const gameday = await prisma.gameday.update({
+				where: { id },
+				data: {
+					active: false
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	}
 };
