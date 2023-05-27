@@ -106,7 +106,17 @@ export const actions: Actions = {
 		const id = +((await data.get('id')) as string);
 
 		try {
-			const gameday = await prisma.gameday.update({
+			const gameday = await prisma.gameday.findFirst({ where: { id }, include: { games: true } });
+			if (!gameday) return fail(404, { error: 'No matching Gameday found.' });
+
+			if (!gameday.games.length) {
+				// gameday has no games, so let's just delete it.
+				await prisma.playersInGameday.deleteMany({ where: { gamedayId: gameday.id } });
+				// if I set cascade deletes I could probably delete the above line.
+				return await prisma.gameday.delete({ where: { id: gameday?.id } });
+			}
+
+			await prisma.gameday.update({
 				where: { id },
 				data: {
 					active: false
