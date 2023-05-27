@@ -1,10 +1,19 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
+
+	// let title = $page.data.title || 'unknown title';
+	// let previous = $page.data.previous;
 </script>
 
 <div class="navbar bg-base-300">
 	<div class="flex-1">
-		<span class="btn btn-ghost normal-case text-xl">daisyUI</span>
+		<!-- {#if previous}
+			<a href={previous} class="btn btn-ghost">
+				<Icon width="24px" icon="material-symbols:arrow-back-ios-new-rounded" />
+			</a>
+		{/if} -->
+		<!-- <span class="text-xl pb-1">{title}</span> -->
 	</div>
 	<div class="flex-none">
 		<div class="dropdown dropdown-end">
