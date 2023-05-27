@@ -1,8 +1,9 @@
 import prisma from '$lib/prisma';
 import type { Session } from '@supabase/supabase-js';
 import { fail } from '@sveltejs/kit';
+import type { Actions } from './$types';
 
-export const actions = {
+export const actions: Actions = {
 	delete: async ({ request, locals }) => {
 		const session = (await locals.getSession()) as Session;
 		const userId = session.user.id;
@@ -15,10 +16,13 @@ export const actions = {
 
 		try {
 			const player = await prisma.player.findFirst({ where: { id: +id, userId } });
+			if (!player) return fail(401, { error: 'Unauthorized' });
 
-			if (!player) {
-				return fail(401, { message: 'Unauthorized' });
-			}
+			const hasPlayed = await prisma.playersInGameday.findFirst({ where: { player } });
+			if (hasPlayed)
+				return fail(400, {
+					error: 'Player is already part of some Gameday. Deleting him is disabled as of right now.'
+				});
 
 			// Cascade only deletes the row in pivot table, so the team must be deleted manually
 			await prisma.team.deleteMany({
@@ -31,7 +35,7 @@ export const actions = {
 			});
 		} catch (error) {
 			console.log(error);
-			return fail(500, { message: 'Something went wrong' });
+			return fail(500, { error: 'Something went wrong' });
 		}
 
 		return { success: true };
