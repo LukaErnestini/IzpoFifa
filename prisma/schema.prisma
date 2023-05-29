@@ -32,6 +32,8 @@ model Foul {
   gameId   Int
   player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId Int
+  team     Team    @relation(fields: [teamId], references: [id])
+  teamId   Int
 }
 
 model Game {
@@ -53,14 +55,16 @@ model Game {
 }
 
 model Team {
-  id      Int             @id @default(autoincrement())
-  name    String?
-  color   String?
-  players PlayersInTeam[]
-  teamA   Game[]          @relation("teamA")
-  teamB   Game[]          @relation("teamB")
-  winner  Game[]          @relation("winner")
-  userId  String
+  id       Int             @id @default(autoincrement())
+  name     String?
+  color    String?
+  players  PlayersInTeam[]
+  teamA    Game[]          @relation("teamA")
+  teamB    Game[]          @relation("teamB")
+  winner   Game[]          @relation("winner")
+  attempts Attempt[]
+  fouls    Foul[]
+  userId   String
 }
 
 model PlayersInTeam {
@@ -79,6 +83,7 @@ model Gameday {
   games     Game[]
   players   PlayersInGameday[]
   userId    String
+  season    Int                @default(1)
 }
 
 model PlayersInGameday {
@@ -108,4 +113,6 @@ model Attempt {
   assistedId Int?
   goalie     Player? @relation("playerAsGoalie", fields: [goalieId], references: [id])
   goalieId   Int?
+  team       Team    @relation(fields: [teamId], references: [id])
+  teamId     Int
 }
