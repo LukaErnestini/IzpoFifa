@@ -10,7 +10,7 @@
 	const goalX = soccerPitchWidth / 2;
 	const goalY = 0;
 
-	const iconSize = 32;
+	const iconSize = 24;
 	let iconDiv: HTMLDivElement;
 	let img: HTMLImageElement;
 
@@ -22,8 +22,8 @@
 		distance = Math.sqrt(Math.pow(goalX - x, 2) + Math.pow(goalY - y, 2));
 
 		// Set the icon's position relative to the click coordinates
-		iconDiv.style.left = `${offsetX - iconSize / 2 + 1}px`;
-		iconDiv.style.top = `${offsetY - iconSize / 2 - 12}px`;
+		iconDiv.style.left = `${offsetX - iconSize / 2}px`;
+		iconDiv.style.top = `${offsetY - iconSize / 2 - 24}px`;
 	};
 
 	function clear() {
@@ -34,7 +34,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="min-w-full py-1 relative" on:click={handleClick} on:dblclick={clear}>
+<div class="min-w-full relative" on:click={handleClick} on:dblclick={clear}>
 	<img
 		src="/img/half-soccer-pitch.png"
 		alt="Half soccer pitch"
@@ -46,10 +46,9 @@
 		class="absolute pointer-events-none w-min"
 		hidden={distance ? false : true}
 	>
-		<span class="label-text text-xs flex justify-center"
-			>{distance ? Math.round(distance) : 'NaN'}m</span
-		>
-		<Icon icon="basil:cross-solid" width={iconSize} />
+		<span class="text-black">{distance ? Math.round(distance) : 'NaN'}m</span>
+		<Icon color="#000" width={iconSize} icon="akar-icons:cross" />
+		<!-- <Icon color="#000" icon="basil:cross-solid" width={iconSize} /> -->
 	</div>
 	<input type="hidden" name="distance" value={distance} />
 	<input type="hidden" name="x" value={x} />

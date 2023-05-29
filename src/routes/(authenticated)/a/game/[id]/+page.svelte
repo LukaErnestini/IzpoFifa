@@ -112,8 +112,10 @@
 		teamA={game.teamA}
 		teamB={game.teamB}
 	/>
-	<AttemptsLocation attempts={teamAattempts} />
-	<AttemptsLocation attempts={teamBattempts} />
+	<div class="p-4">
+		<AttemptsLocation attempts={teamAattempts} />
+		<AttemptsLocation attempts={teamBattempts} rotate180={true} />
+	</div>
 	<div class="p-8">
 		<PrettyTimeline attempts={game.attempts} teamA={game.teamA} teamB={game.teamB} />
 	</div>

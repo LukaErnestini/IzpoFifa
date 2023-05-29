@@ -6,16 +6,17 @@
 	const soccerPitchTouchlineHalf = 50; //meters
 
 	export let attempts: Attempt[] | undefined;
+	export let rotate180 = false;
 </script>
 
-<div class="relative">
+<div class="relative {rotate180 ? 'transform rotate-180' : ''}">
 	<img src="/img/half-soccer-pitch.png" alt="Half soccer field" class="w-full h-auto" />
 	<ul class="absolute top-0 left-0 w-full h-full">
 		{#if attempts}
 			{#each attempts as attempt (attempt.id)}
 				{#if attempt.x !== null && attempt.y !== null}
 					<li
-						class="absolute"
+						class="absolute transform -translate-x-1/2 -translate-y-1/2"
 						style="left: {(attempt.x / soccerPitchWidth) * 100}%; top: {(attempt.y /
 							soccerPitchTouchlineHalf) *
 							100}%;"
