@@ -121,9 +121,9 @@
 <form action="?/attempt" method="post" use:enhance={addEvent}>
 	<div class="form-control m-4 gap-6">
 		<TimeInput {time} />
-		<div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}>
-			<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
-		</div>
+		<!-- <div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}> -->
+		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
+		<!-- </div> -->
 		<SelectPlayersInput inputName="assisted" players={shooterTeammates} bind:selected={assist} />
 		<HalfSoccerPitchInput bind:x bind:y bind:distance />
 		<input type="checkbox" name="goal" bind:checked={goal} hidden />
