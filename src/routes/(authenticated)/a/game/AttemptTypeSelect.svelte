@@ -25,7 +25,7 @@
 			bind:group={attempt}
 			data-title="Goal"
 			value="0"
-			class="btn btn-outline"
+			class="btn btn-outline btn-success"
 		/>
 		<input
 			type="radio"
@@ -42,7 +42,7 @@
 			bind:group={attempt}
 			data-title="Missed"
 			value="2"
-			class="btn btn-outline"
+			class="btn btn-outline btn-error"
 		/>
 	</div>
 </div>
