@@ -5,6 +5,7 @@
 	import CreateGd from './CreateGD.svelte';
 	import CreateGame from './CreateGame.svelte';
 	import Icon from '@iconify/svelte';
+	import { enhance } from '$app/forms';
 
 	export let data;
 	export let form;
@@ -35,10 +36,9 @@
 			gamedayId={data.activeGameday.id}
 		/>
 		<!-- TODO display stats -->
-		<form action="?/end" method="post">
+		<form action="?/end" method="post" use:enhance>
 			<input type="hidden" name="id" value={data.activeGameday.id} />
 			<div class="flex w-full justify-center">
-				<!-- <button formaction="?/end" class="btn btn-wide btn-warning m-4">End Gameday</button> -->
 				<!-- The button to open modal -->
 				<label for="my-modal-4" class="btn btn-wide btn-warning m-4">End Gameday</label>
 			</div>
@@ -48,8 +48,9 @@
 				<label class="modal-box relative" for="">
 					<h3 class="text-lg font-bold">Are you sure you want to end the gameday?</h3>
 					<div class="modal-action">
+						<label for="my-modal-4" class="btn"> No </label>
 						<button formaction="?/end">
-							<label for="my-modal-4" class="btn btn-warning"> Yes! </label>
+							<label for="my-modal-4" class="btn btn-warning"> Yes </label>
 						</button>
 					</div>
 				</label>
