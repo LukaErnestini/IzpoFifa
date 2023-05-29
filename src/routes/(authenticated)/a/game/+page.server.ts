@@ -60,7 +60,16 @@ export const actions: Actions = {
 		const goalieId = data.get('goalie') ? +(data.get('goalie') as string) : undefined;
 
 		try {
-			const attempt = await prisma.attempt.create({
+			const game = await prisma.game.findFirst({
+				where: { id: gameId },
+				include: { teamA: { include: { players: true } } }
+			});
+			if (!game) return fail(400, { error: 'Invalid game id provided' });
+			const teamId = game.teamA.players.map((e) => e.playerId).includes(shooterId)
+				? game.teamAId
+				: game.teamBId;
+
+			await prisma.attempt.create({
 				data: {
 					goal,
 					autogoal,
@@ -73,7 +82,8 @@ export const actions: Actions = {
 					shooter: { connect: { id: shooterId } },
 					assisted: assistedId ? { connect: { id: assistedId } } : undefined,
 					goalie: goalieId ? { connect: { id: goalieId } } : undefined,
-					Game: { connect: { id: gameId } }
+					Game: { connect: { id: gameId } },
+					team: { connect: { id: teamId } }
 				}
 			});
 			if (goal) await tallyScore(gameId);
@@ -133,11 +143,20 @@ const card = async (card: string, request: Request) => {
 	const data = await request.formData();
 	const time = data.get('time') ? +(data.get('time') as string) : null;
 	const shooterId = data.get('shooter') ? +(data.get('shooter') as string) : undefined;
+	if (!shooterId) return fail(400, { error: 'A shooter must be selected.', tag: 'shooter' });
 	const gameId = data.get('gameId') ? +(data.get('gameId') as string) : undefined;
 	const x = data.get('x') ? +(data.get('x') as string) : null;
 	const y = data.get('y') ? +(data.get('y') as string) : null;
 
 	try {
+		const game = await prisma.game.findFirst({
+			where: { id: gameId },
+			include: { teamA: { include: { players: true } } }
+		});
+		if (!game) return fail(400, { error: 'Invalid game id provided' });
+		const teamId = game.teamA.players.map((e) => e.playerId).includes(shooterId)
+			? game.teamAId
+			: game.teamBId;
 		await prisma.foul.create({
 			data: {
 				card,
@@ -145,7 +164,8 @@ const card = async (card: string, request: Request) => {
 				x,
 				y,
 				game: { connect: { id: gameId } },
-				player: { connect: { id: shooterId } }
+				player: { connect: { id: shooterId } },
+				team: { connect: { id: teamId } }
 			}
 		});
 	} catch (error) {
