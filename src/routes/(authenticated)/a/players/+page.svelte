@@ -26,9 +26,25 @@
 		<!-- TODO add a loading spinner while waiting for the delete to appear on the page. -->
 		<form action="?/delete" method="post" use:enhance>
 			<input type="hidden" name="id" value={player.id} />
-			<button class="btn btn-warning btn-sm">
+			<!-- <button class="btn btn-warning btn-sm">
 				<Icon width="24" icon="material-symbols:delete-forever-rounded" />
-			</button>
+			</button> -->
+			<label for="my-modal-4" class="btn btn-warning btn-sm">
+				<Icon width="24" icon="material-symbols:delete-forever-rounded" />
+			</label>
+
+			<input type="checkbox" id="my-modal-4" class="modal-toggle" />
+			<label for="my-modal-4" class="modal cursor-pointer">
+				<label class="modal-box relative" for="">
+					<h3 class="text-lg font-bold">Are you sure you want to delete {player.name}?</h3>
+					<div class="modal-action">
+						<label for="my-modal-4" class="btn"> No </label>
+						<button>
+							<label for="my-modal-4" class="btn btn-warning"> Yes </label>
+						</button>
+					</div>
+				</label>
+			</label>
 		</form>
 	</div>
 {/each}
