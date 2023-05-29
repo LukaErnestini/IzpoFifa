@@ -1,11 +1,14 @@
 <script lang="ts">
+	import AttemptsLocation from '$lib/components/players/AttemptsLocation.svelte';
 	import ScoreBar from '../ScoreBar.svelte';
 	import PrettyTimeline from './PrettyTimeline.svelte';
-	import type { Attempt, Player, Team } from '@prisma/client';
 
 	export let data;
 
 	let game = data.game;
+
+	let teamAattempts = game?.attempts.filter((att) => att.teamId === game?.teamAId);
+	let teamBattempts = game?.attempts.filter((att) => att.teamId === game?.teamBId);
 
 	let deleteClicked = false;
 	let deleteActive = false;
@@ -103,13 +106,14 @@
 </script>
 
 {#if game}
-	<!-- content here -->
 	<ScoreBar
 		scoreTeamA={game.scoreTeamA}
 		scoreTeamB={game.scoreTeamB}
 		teamA={game.teamA}
 		teamB={game.teamB}
 	/>
+	<AttemptsLocation attempts={teamAattempts} />
+	<AttemptsLocation attempts={teamBattempts} />
 	<div class="p-8">
 		<PrettyTimeline attempts={game.attempts} teamA={game.teamA} teamB={game.teamB} />
 	</div>
