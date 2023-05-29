@@ -64,7 +64,9 @@
 	{/if}
 	<ul>
 		{#each data.finishedGamedays as gameday}
-			<li>{formatDate(gameday.createdAt)}</li>
+			<a href={'gameday/' + gameday.id}>
+				<li>{formatDate(gameday.createdAt)}</li>
+			</a>
 		{/each}
 	</ul>
 {/if}
