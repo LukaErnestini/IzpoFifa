@@ -20,6 +20,8 @@ export const actions: Actions = {
 				return { id: +id };
 			});
 			// console.log(players);
+			if (players.length < 2)
+				return fail(400, { error: 'At least 2 players need to be selected.' });
 
 			const gameday = await prisma.gameday.create({
 				data: {
