@@ -36,10 +36,24 @@
 		/>
 		<!-- TODO display stats -->
 		<form action="?/end" method="post">
+			<input type="hidden" name="id" value={data.activeGameday.id} />
 			<div class="flex w-full justify-center">
-				<input type="hidden" name="id" value={data.activeGameday.id} />
-				<button formaction="?/end" class="btn btn-wide btn-warning m-4">End Gameday</button>
+				<!-- <button formaction="?/end" class="btn btn-wide btn-warning m-4">End Gameday</button> -->
+				<!-- The button to open modal -->
+				<label for="my-modal-4" class="btn btn-wide btn-warning m-4">End Gameday</label>
 			</div>
+
+			<input type="checkbox" id="my-modal-4" class="modal-toggle" />
+			<label for="my-modal-4" class="modal cursor-pointer">
+				<label class="modal-box relative" for="">
+					<h3 class="text-lg font-bold">Are you sure you want to end the gameday?</h3>
+					<div class="modal-action">
+						<button formaction="?/end">
+							<label for="my-modal-4" class="btn btn-warning"> Yes! </label>
+						</button>
+					</div>
+				</label>
+			</label>
 		</form>
 	{/if}
 {:else}
