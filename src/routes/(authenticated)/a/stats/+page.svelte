@@ -1,5 +1,5 @@
 <script>
-	import Icon from '@iconify/svelte';
+	export let data;
 </script>
 
 <p>/stats</p>
