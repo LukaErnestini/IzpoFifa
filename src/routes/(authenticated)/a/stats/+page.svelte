@@ -8,8 +8,8 @@
 	export let data;
 
 	const columnDefs: ColDef<DfTeamOverall>[] = [
+		{ headerName: 'Team', field: 'Team', pinned: 'left' },
 		{ headerName: 'Rank', field: 'Rank' },
-		{ headerName: 'Team', field: 'Team' },
 		{ headerName: 'Points', field: 'Pts' },
 		{ headerName: 'Points/MP', field: 'Pts/MP' },
 		{ headerName: 'Wins', field: 'W' },
