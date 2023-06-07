@@ -9,17 +9,17 @@
 
 	const columnDefs: ColDef<DfTeamOverall>[] = [
 		{ headerName: 'Team', field: 'Team', pinned: 'left' },
-		{ headerName: 'Rank', field: 'Rank' },
-		{ headerName: 'Points', field: 'Pts' },
-		{ headerName: 'Points/MP', field: 'Pts/MP' },
-		{ headerName: 'Wins', field: 'W' },
-		{ headerName: 'Draws', field: 'D' },
-		{ headerName: 'Losses', field: 'L' },
-		{ headerName: 'MP', field: 'MP' },
-		{ headerName: 'GF', field: 'GF' },
-		{ headerName: 'GA', field: 'GA' },
-		{ headerName: 'GF/MP', field: 'GF/MP' },
-		{ headerName: 'GA/MP', field: 'GA/MP' }
+		{ headerName: 'Rank', field: 'Rank', sortable: true },
+		{ headerName: 'Points', field: 'Pts', sortable: true },
+		{ headerName: 'Points/MP', field: 'Pts/MP', sortable: true },
+		{ headerName: 'Wins', field: 'W', sortable: true },
+		{ headerName: 'Draws', field: 'D', sortable: true },
+		{ headerName: 'Losses', field: 'L', sortable: true },
+		{ headerName: 'MP', field: 'MP', sortable: true },
+		{ headerName: 'GF', field: 'GF', sortable: true },
+		{ headerName: 'GA', field: 'GA', sortable: true },
+		{ headerName: 'GF/MP', field: 'GF/MP', sortable: true },
+		{ headerName: 'GA/MP', field: 'GA/MP', sortable: true }
 	];
 	// let rowData = [];
 
@@ -40,6 +40,7 @@
 		{columnDefs}
 		{onGridReady}
 		suppressColumnVirtualisation={true}
+		animateRows={true}
 	/>
 </div>
 
