@@ -29,27 +29,29 @@
 <!-- TODO Display fouls as well, ideally in the same timeline -->
 
 {#each attempts as { time, goal, assistedId, shooterId }, i}
-	<div>
-		<span
-			id="attempt"
-			class="flex items-center gap-2 text-lg {attemptsTeam[i] ? 'flex-row-reverse' : ''}"
-		>
-			<p class="text-sm">{time}'</p>
-			{#if goal}
-				<span> <Icon icon="game-icons:soccer-ball" /></span>
-			{/if}
-			<span class="flex items-center y">
-				<!-- <div class="avatar">
-					<div class="w-6 rounded-full">
-						<img alt="avatar" src={players.find((p) => p.id === shooterId)?.imageUri} />
-					</div>
-				</div> -->
-				{players.find((p) => p.id === shooterId)?.name}
+	{#if goal}
+		<div>
+			<span
+				id="attempt"
+				class="flex items-center gap-2 text-lg {attemptsTeam[i] ? 'flex-row-reverse' : ''}"
+			>
+				<p class="text-sm">{time}'</p>
+				{#if goal}
+					<span> <Icon icon="game-icons:soccer-ball" /></span>
+				{/if}
+				<span class="flex items-center y">
+					<!-- <div class="avatar">
+			<div class="w-6 rounded-full">
+				<img alt="avatar" src={players.find((p) => p.id === shooterId)?.imageUri} />
+			</div>
+		</div> -->
+					{players.find((p) => p.id === shooterId)?.name}
+				</span>
+				{#if assistedId}
+					<!-- <PlayerAvatarSelect name={assisted.name} imageUri={assisted.imageUri} width="2rem" /> -->
+					<p class="text-sm">ass: {players.find((p) => p.id === assistedId)?.name}</p>
+				{/if}
 			</span>
-			{#if assistedId}
-				<!-- <PlayerAvatarSelect name={assisted.name} imageUri={assisted.imageUri} width="2rem" /> -->
-				<p class="text-sm">ass: {players.find((p) => p.id === assistedId)?.name}</p>
-			{/if}
-		</span>
-	</div>
+		</div>
+	{/if}
 {/each}
