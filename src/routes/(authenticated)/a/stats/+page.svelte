@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="ag-theme-alpine-dark w-full h-96 p-4">
+<div class="ag-theme-alpine-dark w-full h-[500px] p-4">
 	<AgGridSvelte
 		bind:api
 		bind:columnApi
@@ -41,6 +41,7 @@
 		{onGridReady}
 		suppressColumnVirtualisation={true}
 		animateRows={true}
+		domLayout="autoHeight"
 	/>
 </div>
 
