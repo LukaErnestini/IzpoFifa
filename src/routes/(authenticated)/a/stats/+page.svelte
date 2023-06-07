@@ -42,3 +42,13 @@
 		suppressColumnVirtualisation={true}
 	/>
 </div>
+
+<!-- <style>
+	:global(.ag-cell) {
+		padding: 0 10px;
+	}
+
+	:global(.ag-header-cell) {
+		padding: 0 10px;
+	}
+</style> -->
