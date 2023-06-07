@@ -48,7 +48,7 @@ export interface DfShot {
 	'Conversion Rate': number;
 	G: number;
 	'G/MP': number;
-	'LongRangeGoalRatio(13m+)': number;
+	'LongRangeGoalRatio(16m+)': number;
 	MP: number;
 	'Penalty Attempts': number;
 	'Penalty Conversion Rate': number;
