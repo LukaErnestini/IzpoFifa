@@ -31,14 +31,17 @@
 	}
 </script>
 
-<div class="ag-theme-alpine-dark w-full h-[500px] p-4">
-	<AgGridSvelte
-		bind:api
-		bind:columnApi
-		{columnDefs}
-		{onGridReady}
-		suppressColumnVirtualisation={true}
-		animateRows={true}
-		domLayout="autoHeight"
-	/>
+<!-- TODO: set table width max to be the content inside -->
+<div class="flex">
+	<div class="ag-theme-alpine-dark flex-auto max-h-[500px] p-4">
+		<AgGridSvelte
+			bind:api
+			bind:columnApi
+			{columnDefs}
+			{onGridReady}
+			suppressColumnVirtualisation={true}
+			animateRows={true}
+			domLayout="autoHeight"
+		/>
+	</div>
 </div>
