@@ -28,11 +28,17 @@
 	function onGridReady() {
 		// rowData
 		api.setRowData(data.dfTeamOverall);
-		// columnApi.autoSizeAllColumns();
+		columnApi.autoSizeAllColumns();
 		//
 	}
 </script>
 
-<div class="ag-theme-alpine-dark w-full h-96">
-	<AgGridSvelte bind:api bind:columnApi {columnDefs} {onGridReady} />
+<div class="ag-theme-alpine-dark w-full h-96 p-4">
+	<AgGridSvelte
+		bind:api
+		bind:columnApi
+		{columnDefs}
+		{onGridReady}
+		suppressColumnVirtualisation={true}
+	/>
 </div>
