@@ -66,6 +66,6 @@
 
 	span,
 	a {
-		text-shadow: #000 1px 0 20px;
+		text-shadow: #000 1px 1px 3px;
 	}
 </style>
