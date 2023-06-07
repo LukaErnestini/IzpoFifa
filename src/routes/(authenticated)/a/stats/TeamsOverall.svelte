@@ -4,11 +4,8 @@
 	import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 	import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 	import AgGridSvelte from 'ag-grid-svelte';
-	import PlayersOverall from './PlayersOverall.svelte';
-	import ShotsOverall from './ShotsOverall.svelte';
-	import TeamsOverall from './TeamsOverall.svelte';
 
-	export let data;
+	export let dfTeamOverall: DfTeamOverall[];
 
 	const columnDefs: ColDef<DfTeamOverall>[] = [
 		{ headerName: 'Team', field: 'Team', pinned: 'left' },
@@ -24,40 +21,28 @@
 		{ headerName: 'GF/MP', field: 'GF/MP', sortable: true },
 		{ headerName: 'GA/MP', field: 'GA/MP', sortable: true }
 	];
-	// let rowData = [];
 
 	let api: GridApi<DfTeamOverall>, columnApi: ColumnApi;
 
 	function onGridReady() {
 		// rowData
-		api.setRowData(data.dfTeamOverall);
+		api.setRowData(dfTeamOverall);
 		columnApi.autoSizeAllColumns();
 		//
 	}
 </script>
 
-<div class="ag-theme-alpine-dark w-full h-[500px] p-4">
-	<AgGridSvelte
-		bind:api
-		bind:columnApi
-		{columnDefs}
-		{onGridReady}
-		suppressColumnVirtualisation={true}
-		animateRows={true}
-		domLayout="autoHeight"
-	/>
+<!-- TODO: set table width max to be the content inside -->
+<div class="flex">
+	<div class="ag-theme-alpine-dark flex-auto max-h-[500px] p-4">
+		<AgGridSvelte
+			bind:api
+			bind:columnApi
+			{columnDefs}
+			{onGridReady}
+			suppressColumnVirtualisation={true}
+			animateRows={true}
+			domLayout="autoHeight"
+		/>
+	</div>
 </div>
-
-<TeamsOverall dfTeamOverall={data.dfTeamOverall} />
-<PlayersOverall dfPlayerOverall={data.dfPlayerOverall} />
-<ShotsOverall dfShot={data.dfShots} />
-
-<!-- <style>
-	:global(.ag-cell) {
-		padding: 0 10px;
-	}
-
-	:global(.ag-header-cell) {
-		padding: 0 10px;
-	}
-</style> -->
