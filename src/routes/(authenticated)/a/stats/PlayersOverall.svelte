@@ -1,16 +1,14 @@
 <script lang="ts">
-	import type { DfTeamOverall } from '$lib/types.js';
+	import type { DfPlayerOverall } from '$lib/types.js';
 	import type { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
 	import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 	import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 	import AgGridSvelte from 'ag-grid-svelte';
-	import PlayersOverall from './PlayersOverall.svelte';
 
-	export let data;
+	export let dfPlayerOverall: DfPlayerOverall[];
 
-	const columnDefs: ColDef<DfTeamOverall>[] = [
-		{ headerName: 'Team', field: 'Team', pinned: 'left' },
-		{ headerName: 'Rank', field: 'Rank', sortable: true },
+	const columnDefs: ColDef<DfPlayerOverall>[] = [
+		{ headerName: 'Player', field: 'Player', pinned: 'left' },
 		{ headerName: 'Points', field: 'Pts', sortable: true },
 		{ headerName: 'Points/MP', field: 'Pts/MP', sortable: true },
 		{ headerName: 'Wins', field: 'W', sortable: true },
@@ -22,13 +20,12 @@
 		{ headerName: 'GF/MP', field: 'GF/MP', sortable: true },
 		{ headerName: 'GA/MP', field: 'GA/MP', sortable: true }
 	];
-	// let rowData = [];
 
-	let api: GridApi<DfTeamOverall>, columnApi: ColumnApi;
+	let api: GridApi<DfPlayerOverall>, columnApi: ColumnApi;
 
 	function onGridReady() {
 		// rowData
-		api.setRowData(data.dfTeamOverall);
+		api.setRowData(dfPlayerOverall);
 		columnApi.autoSizeAllColumns();
 		//
 	}
@@ -45,15 +42,3 @@
 		domLayout="autoHeight"
 	/>
 </div>
-
-<PlayersOverall dfPlayerOverall={data.dfPlayerOverall} />
-
-<!-- <style>
-	:global(.ag-cell) {
-		padding: 0 10px;
-	}
-
-	:global(.ag-header-cell) {
-		padding: 0 10px;
-	}
-</style> -->
