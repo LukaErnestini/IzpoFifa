@@ -21,11 +21,14 @@
 							soccerPitchTouchlineHalf) *
 							100}%;"
 					>
-						<Icon
-							width="24px"
-							icon="codicon:circle"
-							class={attempt.goal ? 'text-green-700' : 'text-red-500'}
-						/>
+						{#if attempt.goal}
+							<img src="/img/ball.bmp" alt="ball" width="20px" />
+						{:else if attempt.onTarget}
+							<Icon class="text-black" icon="carbon:dot-mark" width="24px" />
+						{:else}
+							<Icon class="text-black" icon="codicon:circle" width="24px" />
+							<!-- else content here -->
+						{/if}
 					</li>
 				{/if}
 			{/each}
