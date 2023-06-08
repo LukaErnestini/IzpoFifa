@@ -3,8 +3,6 @@
 	import { browser } from '$app/environment';
 
 	export let data;
-	export let form;
-	// console.log(form);
 
 	$: if (browser && data.session?.user) {
 		goto('/stats');
