@@ -22,11 +22,11 @@
 							100}%;"
 					>
 						{#if attempt.goal}
-							<img src="/img/ball.bmp" alt="ball" width="12px" />
+							<Icon class="text-white" icon="codicon:circle" width="22px" />
 						{:else if attempt.onTarget}
-							<Icon class="text-black" icon="carbon:dot-mark" width="20px" />
+							<Icon class="text-purple-700" icon="codicon:circle" width="22px" />
 						{:else}
-							<Icon class="text-black" icon="codicon:circle" width="20px" />
+							<Icon class="text-black" icon="codicon:circle" width="22px" />
 							<!-- else content here -->
 						{/if}
 					</li>
