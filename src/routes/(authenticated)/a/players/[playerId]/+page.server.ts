@@ -1,7 +1,20 @@
 import prisma from '$lib/prisma';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { nanoid } from 'nanoid';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ params }) => {
+	const id = +params.playerId;
+	try {
+		const attempts = prisma.attempt.findMany({
+			where: { shooterId: id }
+		});
+		return { attempts };
+	} catch (error) {
+		console.log(error);
+		throw fail(500, { error: 'Something went wrong.' });
+	}
+};
 
 export const actions = {
 	save: async ({ request, locals: { supabase } }) => {

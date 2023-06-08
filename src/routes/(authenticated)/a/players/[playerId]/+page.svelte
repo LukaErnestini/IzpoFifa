@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import AttemptsLocation from '$lib/components/players/AttemptsLocation.svelte';
 	import PlayerAvatarSelect from '$lib/components/players/PlayerAvatarSelect.svelte';
-	import type { Player } from '@prisma/client';
 	import Compressor from 'compressorjs';
 
 	export let data;
@@ -82,4 +82,5 @@
 		<!-- <button formaction="?/delete" class="btn btn-warning">DELETE</button> -->
 		<!-- <button class="btn">SAVE</button> -->
 	</form>
+	<AttemptsLocation attempts={data.attempts} />
 {/if}
