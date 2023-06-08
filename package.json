@@ -2,6 +2,7 @@
 	"name": "sveltekit-2",
 	"version": "0.0.1",
 	"scripts": {
+		"postinstall": "prisma generate",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -47,6 +48,7 @@
 		"ag-grid-community": "^29.3.5",
 		"ag-grid-svelte": "^0.2.1",
 		"compressorjs": "^1.2.1",
-		"daisyui": "^2.51.6"
+		"daisyui": "^2.51.6",
+		"nanoid": "^4.0.2"
 	}
 }
