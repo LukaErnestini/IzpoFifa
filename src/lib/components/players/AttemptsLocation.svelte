@@ -7,6 +7,10 @@
 
 	export let attempts: Attempt[] | undefined;
 	export let rotate180 = false;
+
+	let showGoals = true;
+	let showOnTarget = true;
+	let showMisses = true;
 </script>
 
 <div class="relative {rotate180 ? 'transform rotate-180' : ''}">
@@ -22,16 +26,48 @@
 							100}%;"
 					>
 						{#if attempt.goal}
-							<Icon class="text-white" icon="codicon:circle" width="22px" />
+							{#if showGoals}
+								<Icon class="text-white" icon="codicon:circle" width="22px" />
+							{/if}
 						{:else if attempt.onTarget}
-							<Icon class="text-purple-700" icon="codicon:circle" width="22px" />
-						{:else}
+							{#if showOnTarget}
+								<Icon class="text-purple-700" icon="codicon:circle" width="22px" />
+							{/if}
+						{:else if showMisses}
 							<Icon class="text-black" icon="codicon:circle" width="22px" />
-							<!-- else content here -->
 						{/if}
 					</li>
 				{/if}
 			{/each}
 		{/if}
 	</ul>
+	<div class="absolute bottom-0 flex flex-col">
+		<label class="cursor-pointer label w-22 py-0.5">
+			<span class="label-text text-gray-800">Goals</span>
+			<input name="goal" type="checkbox" bind:checked={showGoals} class="hidden" />
+			<Icon
+				class={showGoals ? 'text-white' : 'text-transparent'}
+				icon="codicon:circle"
+				width="22px"
+			/>
+		</label>
+		<label class="cursor-pointer label w-22 py-0.5">
+			<span class="label-text text-gray-800">OnTarget</span>
+			<input name="onTarget" type="checkbox" bind:checked={showOnTarget} class="hidden" />
+			<Icon
+				class={showOnTarget ? 'text-purple-700' : 'text-transparent'}
+				icon="codicon:circle"
+				width="22px"
+			/>
+		</label>
+		<label class="cursor-pointer label w-22 py-0.5">
+			<span class="label-text text-gray-800">Misses</span>
+			<input name="misses" type="checkbox" bind:checked={showMisses} class="hidden" />
+			<Icon
+				class={showMisses ? 'text-black' : 'text-transparent'}
+				icon="codicon:circle"
+				width="22px"
+			/>
+		</label>
+	</div>
 </div>
