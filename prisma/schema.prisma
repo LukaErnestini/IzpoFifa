@@ -1,0 +1,118 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Player {
+  id       Int                @id @default(autoincrement())
+  name     String
+  imageUri String?
+  teams    PlayersInTeam[]
+  shots    Attempt[]          @relation("playerShots")
+  assists  Attempt[]          @relation("playerAssists")
+  goalie   Attempt[]          @relation("playerAsGoalie")
+  gamedays PlayersInGameday[]
+  fouls    Foul[]
+  userId   String
+}
+
+model Foul {
+  id       Int     @id @default(autoincrement())
+  card     String?
+  time     Int?
+  x        Float?
+  y        Float?
+  game     Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  gameId   Int
+  player   Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId Int
+  team     Team    @relation(fields: [teamId], references: [id])
+  teamId   Int
+}
+
+model Game {
+  id         Int       @id @default(autoincrement())
+  date       DateTime  @default(now())
+  attempts   Attempt[]
+  fouls      Foul[]
+  Gameday    Gameday   @relation(fields: [gamedayId], references: [id], onDelete: Cascade)
+  gamedayId  Int
+  scoreTeamA Int       @default(0)
+  scoreTeamB Int       @default(0)
+  teamA      Team      @relation("teamA", fields: [teamAId], references: [id], onDelete: Cascade)
+  teamAId    Int
+  teamB      Team      @relation("teamB", fields: [teamBId], references: [id], onDelete: Cascade)
+  teamBId    Int
+  winner     Team?     @relation("winner", fields: [winnerId], references: [id])
+  winnerId   Int?
+  finished   Boolean   @default(false)
+}
+
+model Team {
+  id       Int             @id @default(autoincrement())
+  name     String?
+  color    String?
+  players  PlayersInTeam[]
+  teamA    Game[]          @relation("teamA")
+  teamB    Game[]          @relation("teamB")
+  winner   Game[]          @relation("winner")
+  attempts Attempt[]
+  fouls    Foul[]
+  userId   String
+}
+
+model PlayersInTeam {
+  team     Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId   Int
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId Int
+
+  @@id([teamId, playerId])
+}
+
+model Gameday {
+  id        Int                @id @default(autoincrement())
+  active    Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  games     Game[]
+  players   PlayersInGameday[]
+  userId    String
+  season    Int                @default(1)
+}
+
+model PlayersInGameday {
+  gameday   Gameday @relation(fields: [gamedayId], references: [id])
+  gamedayId Int
+  player    Player  @relation(fields: [playerId], references: [id])
+  playerId  Int
+
+  @@id([gamedayId, playerId])
+}
+
+model Attempt {
+  id         Int     @id @default(autoincrement())
+  time       Int
+  distance   Float?
+  x          Float?
+  y          Float?
+  goal       Boolean @default(false)
+  autogoal   Boolean @default(false)
+  penalty    Boolean @default(false)
+  onTarget   Boolean @default(false)
+  shooter    Player  @relation("playerShots", fields: [shooterId], references: [id], onDelete: Cascade)
+  shooterId  Int
+  Game       Game    @relation(fields: [gameId], references: [id])
+  gameId     Int
+  assisted   Player? @relation("playerAssists", fields: [assistedId], references: [id])
+  assistedId Int?
+  goalie     Player? @relation("playerAsGoalie", fields: [goalieId], references: [id])
+  goalieId   Int?
+  team       Team    @relation(fields: [teamId], references: [id])
+  teamId     Int
+}
