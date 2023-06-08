@@ -47,6 +47,7 @@
 		"ag-grid-community": "^29.3.5",
 		"ag-grid-svelte": "^0.2.1",
 		"compressorjs": "^1.2.1",
-		"daisyui": "^2.51.6"
+		"daisyui": "^2.51.6",
+		"nanoid": "^4.0.2"
 	}
 }
