@@ -64,8 +64,13 @@
 	];
 </script>
 
+<h1 class="text-4xl text-center">Stats</h1>
+
+<h2 class="text-2xl text-center">Teams Overall</h2>
 <GridTable rowData={data.dfTeamOverall} columnDefs={teamsOverallColumnDefs} />
+<h2 class="text-2xl text-center">Players Overall</h2>
 <GridTable rowData={data.dfPlayerOverall} columnDefs={playersOverallColumnDefs} />
+<h2 class="text-2xl text-center">Players Shooting</h2>
 <GridTable rowData={data.dfShots} columnDefs={shotsOverallColumnDefs} />
 
 <!-- <style>
