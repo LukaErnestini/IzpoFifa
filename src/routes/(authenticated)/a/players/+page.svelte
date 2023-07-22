@@ -29,18 +29,18 @@
 			<!-- <button class="btn btn-warning btn-sm">
 				<Icon width="24" icon="material-symbols:delete-forever-rounded" />
 			</button> -->
-			<label for="my-modal-4" class="btn btn-warning btn-sm">
+			<label for="my-modal-{player.id}" class="btn btn-warning btn-sm">
 				<Icon width="24" icon="material-symbols:delete-forever-rounded" />
 			</label>
 
-			<input type="checkbox" id="my-modal-4" class="modal-toggle" />
-			<label for="my-modal-4" class="modal cursor-pointer">
+			<input type="checkbox" id="my-modal-{player.id}" class="modal-toggle" />
+			<label for="my-modal-{player.id}" class="modal cursor-pointer">
 				<label class="modal-box relative" for="">
 					<h3 class="text-lg font-bold">Are you sure you want to delete {player.name}?</h3>
 					<div class="modal-action">
-						<label for="my-modal-4" class="btn"> No </label>
+						<label for="my-modal-{player.id}" class="btn"> No </label>
 						<button>
-							<label for="my-modal-4" class="btn btn-warning"> Yes </label>
+							<label for="my-modal-{player.id}" class="btn btn-warning"> Yes </label>
 						</button>
 					</div>
 				</label>
