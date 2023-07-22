@@ -31,7 +31,7 @@ export const actions = {
 				}
 			});
 
-			// Create teams with the new player
+			// Create team with the new player
 			await prisma.team.create({
 				data: {
 					userId,
