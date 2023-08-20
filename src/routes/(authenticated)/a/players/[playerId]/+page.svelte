@@ -65,22 +65,24 @@
 	}
 </script>
 
-{#if !player}
-	<h1>404 - Player Not Found</h1>
-{:else}
-	<form action="?/save" method="post" enctype="multipart/form-data" bind:this={form}>
-		<div
-			class="py-2 cursor-pointer w-fit"
-			on:click={triggerFileInput}
-			on:keydown={triggerFileInput}
-		>
-			<PlayerAvatarSelect name={player?.name} width={'10rem'} imageUri={imageSrc} />
-			<input type="file" name="image" bind:this={fileInput} hidden on:change={swapImage} />
-		</div>
+<div class="p-4 flex flex-col items-center gap-4 max-w-3xl">
+	{#if !player}
+		<h1>404 - Player Not Found</h1>
+	{:else}
+		<form action="?/save" method="post" enctype="multipart/form-data" bind:this={form}>
+			<div
+				class="py-2 cursor-pointer w-fit"
+				on:click={triggerFileInput}
+				on:keydown={triggerFileInput}
+			>
+				<PlayerAvatarSelect name={player?.name} width={'10rem'} imageUri={imageSrc} />
+				<input type="file" name="image" bind:this={fileInput} hidden on:change={swapImage} />
+			</div>
 
-		<input type="hidden" name="id" value={player?.id} />
-		<!-- <button formaction="?/delete" class="btn btn-warning">DELETE</button> -->
-		<!-- <button class="btn">SAVE</button> -->
-	</form>
-	<AttemptsLocation attempts={data.attempts} />
-{/if}
+			<input type="hidden" name="id" value={player?.id} />
+			<!-- <button formaction="?/delete" class="btn btn-warning">DELETE</button> -->
+			<!-- <button class="btn">SAVE</button> -->
+		</form>
+		<AttemptsLocation attempts={data.attempts} />
+	{/if}
+</div>

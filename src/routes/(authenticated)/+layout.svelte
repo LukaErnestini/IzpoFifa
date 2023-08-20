@@ -40,4 +40,6 @@
 	</div>
 </div>
 
-<slot />
+<div class="flex items-center flex-col">
+	<slot />
+</div>

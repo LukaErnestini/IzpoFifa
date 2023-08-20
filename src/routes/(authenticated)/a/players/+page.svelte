@@ -7,7 +7,7 @@
 </script>
 
 <!-- TODO componentize the alert message below. It appears many times in the app. -->
-<div class="max-w-xl mx-auto form-control gap-2 m-4">
+<div class="max-w-xl w-full form-control gap-2 m-4">
 	{#if form?.error}
 		<div class="px-1">
 			<div class="alert alert-error shadow-lg">

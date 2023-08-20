@@ -64,7 +64,7 @@
 	];
 </script>
 
-<div class="form-control gap-8">
+<div class="form-control gap-8 w-full">
 	<h1 class="text-4xl text-center uppercase my-4">Stats</h1>
 	<div>
 		<h2 class="text-2xl text-center">Teams Overall</h2>
