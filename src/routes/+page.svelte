@@ -23,7 +23,7 @@
 		<button class="btn btn-primary my-6 mb-0">Log in</button>
 		<button class="btn btn-warning hidden" formaction="?/signout">Log out</button>
 		<p class="text-center mt-4 text-error">
-			This is version 2.0, alpha release. Probably many bugs and security vulnerabilites. For best
+			This is version 2.2, alpha release. Probably many bugs and security vulnerabilites. For best
 			experience open on a mobile screen.
 		</p>
 	</div>
