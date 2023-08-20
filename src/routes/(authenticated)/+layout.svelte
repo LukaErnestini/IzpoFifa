@@ -8,6 +8,10 @@
 
 <div class="navbar bg-base-300">
 	<div class="flex-1">
+		<a href="/" class="btn btn-ghost gap-2">
+			<Icon icon="noto:soccer-ball" height="24" />
+			<span class="font-fifafont uppercase">IzpoFifa</span>
+		</a>
 		<!-- {#if previous}
 			<a href={previous} class="btn btn-ghost">
 				<Icon width="24px" icon="material-symbols:arrow-back-ios-new-rounded" />
