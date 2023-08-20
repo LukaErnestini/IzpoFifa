@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Izpo-Fifa</title>
+	<title>IzpoFifa</title>
 </svelte:head>
 
 <slot />
