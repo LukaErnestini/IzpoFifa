@@ -9,7 +9,7 @@
 	export let players: Player[];
 
 	const removeEvent: SubmitFunction = (input) => {
-		const fouldId = +(input.data.get('id') as string);
+		const fouldId = +(input.formData.get('id') as string);
 		console.log(fouldId);
 		attempts = attempts.filter((e) => e.id !== fouldId);
 	};
