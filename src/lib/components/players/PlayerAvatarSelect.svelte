@@ -16,7 +16,7 @@
 	$: currentWidth = selected ? selectedWidth : width;
 </script>
 
-<div class="avatar block">
+<div class="avatar block p-1 rounded-full {selected ? 'bg-red-600' : ''}">
 	<div
 		style={`width: ${currentWidth}; --tw-ring-color: ${color}`}
 		class="rounded-full mx-auto
