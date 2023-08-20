@@ -5,7 +5,6 @@
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	import type { SubmitFunction } from '$app/forms';
 	import { getTeammates } from './util';
 	import SelectPlayersInput from './SelectPlayersInput.svelte';
 	import TimeInput from './TimeInput.svelte';
@@ -17,6 +16,7 @@
 	import Icon from '@iconify/svelte';
 	import EventsLog from './EventsLog.svelte';
 	import ScoreBar from './ScoreBar.svelte';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let data;
 	export let form;

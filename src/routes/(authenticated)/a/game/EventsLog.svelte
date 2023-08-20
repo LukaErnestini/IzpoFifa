@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { enhance, type SubmitFunction } from '$app/forms';
+	import { enhance } from '$app/forms';
 	import Icon from '@iconify/svelte';
 	import type { Attempt, Foul, Player } from '@prisma/client';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let attempts: Attempt[];
 	export let fouls: Foul[];
