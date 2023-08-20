@@ -20,7 +20,7 @@
 			<span class="label-text">Password</span>
 		</label>
 		<input class="input" name="password" type="password" />
-		<button class="btn btn-primary my-6 mb-0">Log in</button>
+		<button class="btn btn-primary mt-6">Log in</button>
 		<button class="btn btn-warning hidden" formaction="?/signout">Log out</button>
 		<p class="text-center mt-4 text-error">
 			This is version 2.2, alpha release. Probably many bugs and security vulnerabilites. For best
