@@ -7,7 +7,7 @@
 </script>
 
 <div class="navbar bg-base-300">
-	<div class="flex-1">
+	<div class="navbar-start">
 		<a href="/" class="btn btn-ghost gap-2">
 			<Icon icon="noto:soccer-ball" height="24" />
 			<span class="uppercase">IzpoFifa</span>
@@ -19,13 +19,16 @@
 		{/if} -->
 		<!-- <span class="text-xl pb-1">{title}</span> -->
 	</div>
-	<div class="flex-none">
+	<div class="navbar-end">
 		<div class="dropdown dropdown-end">
 			<button tabindex="0" class="btn btn-ghost rounded-btn">
 				<Icon width="24" icon="material-symbols:menu-rounded" />
 			</button>
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-200 rounded-box w-32 mt-4">
+			<ul
+				tabindex="0"
+				class="menu z-[1] dropdown-content p-2 shadow bg-base-200 rounded-box w-32 mt-4"
+			>
 				<li><a href="/a/gameday">Gameday</a></li>
 				<li><a href="/a/stats">Stats</a></li>
 				<li><a href="/a/players">Players</a></li>
