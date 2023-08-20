@@ -11,7 +11,7 @@
 
 <form class="px-4 flex items-center justify-center min-h-screen" action="?/signin" method="post">
 	<div class="form-control p-8 rounded-lg bg-neutral">
-		<p class="uppercase self-center mb-8 text-4xl">IZPO-FIFA</p>
+		<p class="uppercase self-center mb-8 text-4xl">IZPOFIFA</p>
 		<label class="label pt-0 pb-1" for="email">
 			<span class="label-text">Username</span>
 		</label>
