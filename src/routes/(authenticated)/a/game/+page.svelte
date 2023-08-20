@@ -119,13 +119,15 @@
 	</div>
 {/if}
 <form action="?/attempt" method="post" use:enhance={addEvent}>
-	<div class="form-control m-4 gap-6">
+	<div class="form-control gap-6 p-8">
 		<TimeInput {time} />
 		<!-- <div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}> -->
 		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
 		<!-- </div> -->
 		<SelectPlayersInput inputName="assisted" players={shooterTeammates} bind:selected={assist} />
-		<HalfSoccerPitchInput bind:x bind:y bind:distance />
+		<div class="max-w-xl self-center">
+			<HalfSoccerPitchInput bind:x bind:y bind:distance />
+		</div>
 		<input type="checkbox" name="goal" bind:checked={goal} hidden />
 		<input type="checkbox" name="onTarget" bind:checked={onTarget} hidden />
 		<AttemptTypeSelect bind:goal bind:onTarget bind:attempt />
