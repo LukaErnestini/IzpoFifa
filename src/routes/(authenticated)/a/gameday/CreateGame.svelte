@@ -21,6 +21,7 @@
 	});
 </script>
 
+<h1 class="text-3xl my-4">Create game</h1>
 <form action="?/createGame" method="post">
 	<input type="hidden" name="gamedayId" value={gamedayId} />
 	<div class="flex w-full">
@@ -30,7 +31,7 @@
 					<label class="label cursor-pointer">
 						<span
 							class="label-text {team1[i].selected ? 'text-accent' : ''} {team2[i].selected
-								? 'line-through'
+								? 'line-through text-neutral'
 								: ''}">{player.name}</span
 						>
 						<input
@@ -54,7 +55,7 @@
 						<span
 							class="label-text
                             {team2[i].selected ? 'text-accent' : ''}
-                            {team1[i].selected ? 'line-through' : ''}"
+                            {team1[i].selected ? 'line-through text-neutral' : ''}"
 							>{player.name}
 						</span>
 						<input
@@ -75,6 +76,8 @@
 		<button class="btn btn-wide m-4">Start Game</button>
 	</div>
 </form>
+
+<h2 class="text-2xl mt-12 mb-4">Previous games</h2>
 <div>
 	{#if games}
 		{#each games as game}
