@@ -79,7 +79,7 @@
 
 <h2 class="text-2xl mt-12 mb-4">Previous games</h2>
 <div>
-	{#if games}
+	{#if games.length}
 		{#each games as game}
 			<a href="/a/game/{game.id}" class="block">
 				<span class={game.winnerId === game.teamA.id ? 'text-lg text-success' : ''}
@@ -91,5 +91,7 @@
 				>
 			</a>
 		{/each}
+	{:else}
+		<p class="text-s">No games played. Start one!</p>
 	{/if}
 </div>
