@@ -18,31 +18,31 @@
 </script>
 
 <div class="main-container">
-	<div class="btn-group">
+	<div class="join">
 		<input
 			type="radio"
 			name="options"
 			bind:group={attempt}
-			data-title="Goal"
+			aria-label="Goal"
 			value="0"
-			class="btn btn-outline btn-success"
+			class="btn btn-outline btn-success join-item checked:!bg-success checked:!border-success"
 		/>
 		<input
 			type="radio"
 			name="options"
 			bind:group={attempt}
-			data-title="On Target"
+			aria-label="On Target"
 			value="1"
-			class="btn btn-outline"
+			class="btn btn-outline join-item"
 			checked
 		/>
 		<input
 			type="radio"
 			name="options"
 			bind:group={attempt}
-			data-title="Missed"
+			aria-label="Missed"
 			value="2"
-			class="btn btn-outline btn-error"
+			class="btn btn-outline btn-error join-item checked:!bg-error checked:!border-error"
 		/>
 	</div>
 </div>
