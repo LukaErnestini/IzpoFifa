@@ -1,11 +1,17 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { enhance, type SubmitFunction } from '$app/forms';
 	import Icon from '@iconify/svelte';
 	import type { Attempt, Foul, Player } from '@prisma/client';
 
 	export let attempts: Attempt[];
 	export let fouls: Foul[];
 	export let players: Player[];
+
+	const removeEvent: SubmitFunction = (input) => {
+		const fouldId = +(input.data.get('id') as string);
+		console.log(fouldId);
+		attempts = attempts.filter((e) => e.id !== fouldId);
+	};
 </script>
 
 {#if fouls.length}
@@ -86,7 +92,7 @@
 							{/if}
 						</td>
 						<td class="px-0 pr-2">
-							<form action="?/removeAttempt" method="post" use:enhance>
+							<form action="?/removeAttempt" method="post" use:enhance={removeEvent}>
 								<input type="hidden" name="id" value={a.id} />
 								<button>
 									<Icon icon="system-uicons:cross-circle" class="text-error" width="24" />

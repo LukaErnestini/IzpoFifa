@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import type { Player } from '@prisma/client';
 	import { AttemptType } from '$lib/types';
 	import { enhance } from '$app/forms';
@@ -74,8 +74,7 @@
 		// Before form submits
 		loading = true;
 
-		return async ({ update, result, form }) => {
-			window.scrollTo({ top: 64, behavior: 'smooth' });
+		return async ({ update, result }) => {
 			if (result.type === 'failure') {
 				loading = false;
 				return await update();
@@ -91,8 +90,9 @@
 			x = null;
 			y = null;
 			distance = null;
-			await update({ reset: false });
 			loading = false;
+			window.scrollTo({ top: 64, behavior: 'smooth' });
+			invalidateAll();
 		};
 	};
 
