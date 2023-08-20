@@ -64,14 +64,21 @@
 	];
 </script>
 
-<h1 class="text-4xl text-center">Stats</h1>
-
-<h2 class="text-2xl text-center">Teams Overall</h2>
-<GridTable rowData={data.dfTeamOverall} columnDefs={teamsOverallColumnDefs} />
-<h2 class="text-2xl text-center">Players Overall</h2>
-<GridTable rowData={data.dfPlayerOverall} columnDefs={playersOverallColumnDefs} />
-<h2 class="text-2xl text-center">Players Shooting</h2>
-<GridTable rowData={data.dfShots} columnDefs={shotsOverallColumnDefs} />
+<div class="form-control gap-8">
+	<h1 class="text-4xl text-center uppercase my-4">Stats</h1>
+	<div>
+		<h2 class="text-2xl text-center">Teams Overall</h2>
+		<GridTable rowData={data.dfTeamOverall} columnDefs={teamsOverallColumnDefs} />
+	</div>
+	<div>
+		<h2 class="text-2xl text-center">Players Overall</h2>
+		<GridTable rowData={data.dfPlayerOverall} columnDefs={playersOverallColumnDefs} />
+	</div>
+	<div>
+		<h2 class="text-2xl text-center">Players Shooting</h2>
+		<GridTable rowData={data.dfShots} columnDefs={shotsOverallColumnDefs} />
+	</div>
+</div>
 
 <!-- <style>
 	:global(.ag-cell) {
