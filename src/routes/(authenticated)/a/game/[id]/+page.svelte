@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import AttemptsLocation from '$lib/components/players/AttemptsLocation.svelte';
 	import ScoreBar from '../ScoreBar.svelte';
 	import PrettyTimeline from './PrettyTimeline.svelte';
@@ -12,6 +13,7 @@
 
 	let deleteClicked = false;
 	let deleteActive = false;
+	let loading = false;
 	let i = 0;
 	function deleteMaybe() {
 		deleteClicked = true;
@@ -120,12 +122,29 @@
 		<PrettyTimeline attempts={game.attempts} teamA={game.teamA} teamB={game.teamB} />
 	</div>
 
-	<form action="?/remove" method="post" class="flex justify-center">
+	<form
+		action="?/remove"
+		method="post"
+		class="flex justify-center"
+		use:enhance={() => {
+			loading = true;
+			return async ({ update }) => {
+				update();
+			};
+		}}
+	>
 		<input type="hidden" name="id" value={game.id} />
 		<button
 			type={deleteActive ? 'submit' : 'button'}
 			class="btn {deleteClicked ? 'btn-error' : 'btn-warning'}"
-			on:click={deleteMaybe}>{textValues[i]}</button
+			disabled={loading}
+			on:click={deleteMaybe}
 		>
+			{#if loading}
+				<span class="loading loading-spinner" />
+			{:else}
+				{textValues[i]}
+			{/if}
+		</button>
 	</form>
 {/if}
