@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import type { Player } from '@prisma/client';
 	import { AttemptType } from '$lib/types';
 	import { enhance } from '$app/forms';
@@ -70,9 +70,10 @@
 		true
 	);
 
-	const addEvent: SubmitFunction = (input) => {
+	const addEvent: SubmitFunction = () => {
 		// Before form submits
 		loading = true;
+		form = null;
 
 		return async ({ update, result }) => {
 			if (result.type === 'failure') {
@@ -108,18 +109,16 @@
 	teamB={data.activeGame.teamB}
 />
 
-{#if form?.error}
-	<div class="px-1">
-		<div class="alert alert-error shadow-lg">
-			<div>
-				<Icon icon="material-symbols:error-outline-rounded" color="red" />
-				<span>{form.error}</span>
-			</div>
-		</div>
-	</div>
-{/if}
 <form action="?/attempt" method="post" use:enhance={addEvent}>
 	<div class="form-control gap-6 p-8">
+		{#if form?.error}
+			<div class="alert alert-error shadow-lg">
+				<div>
+					<Icon icon="material-symbols:error-outline-rounded" color="red" />
+					<span>{form.error}</span>
+				</div>
+			</div>
+		{/if}
 		<TimeInput {time} />
 		<!-- <div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}> -->
 		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
