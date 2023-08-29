@@ -112,7 +112,7 @@
 		teamA={game.teamA}
 		teamB={game.teamB}
 	/>
-	<div class="p-4">
+	<div class="p-4 max-w-xl">
 		<AttemptsLocation attempts={teamAattempts} />
 		<AttemptsLocation attempts={teamBattempts} rotate180={true} />
 	</div>
