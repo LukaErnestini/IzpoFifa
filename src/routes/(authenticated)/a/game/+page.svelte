@@ -142,13 +142,19 @@
 			<CardsSection />
 		</div>
 		<div class="flex w-full justify-center">
-			<button type="button" class="btn btn-outline" on:click={() => (expanded = !expanded)}
-				>{expanded ? 'HIDE' : 'EXPAND'}</button
-			>
+			<button type="button" class="btn btn-outline" on:click={() => (expanded = !expanded)}>
+				{expanded ? 'HIDE' : 'EXPAND'}
+			</button>
 		</div>
 		<input type="hidden" name="gameId" value={activeGame?.id} />
 		<div class="flex w-full justify-center">
-			<button class="btn btn-wide m-4" class:loading disabled={loading}>Submit Attempt</button>
+			<button class="btn btn-wide m-4" disabled={loading}>
+				{#if loading}
+					<span class="loading loading-spinner" />
+				{:else}
+					Submit Attempt
+				{/if}
+			</button>
 		</div>
 	</div>
 
@@ -156,6 +162,12 @@
 
 	<div class="flex w-full justify-center">
 		<!-- TODO Add modal to confirm -->
-		<button formaction="?/endGame" class="btn btn-wide btn-error btn-sm m-4">End Game</button>
+		<button formaction="?/endGame" class="btn btn-wide btn-error btn-sm m-4">
+			{#if loading}
+				<span class="loading loading-spinner" />
+			{:else}
+				End Game
+			{/if}
+		</button>
 	</div>
 </form>
