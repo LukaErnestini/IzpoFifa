@@ -84,6 +84,7 @@ model Gameday {
   players   PlayersInGameday[]
   userId    String
   season    Int                @default(1)
+  title     String?
 }
 
 model PlayersInGameday {
