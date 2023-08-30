@@ -63,9 +63,9 @@
 		<p>No gamedays yet. Start one</p>
 	{/if}
 	<ul>
-		{#each data.finishedGamedays as gameday}
+		{#each data.finishedGamedays.sort((a, b) => a.createdAt.valueOf() - b.createdAt.valueOf()) as gameday}
 			<a href={'gameday/' + gameday.id}>
-				<li>{formatDate(gameday.createdAt)}</li>
+				<li>{gameday.title || formatDate(gameday.createdAt)}</li>
 			</a>
 		{/each}
 	</ul>

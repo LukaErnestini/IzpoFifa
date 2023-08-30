@@ -1,7 +1,8 @@
 import { PUBLIC_DATA_API } from '$env/static/public';
+import prisma from '$lib/prisma';
 import type { playerStats } from '$lib/types';
 import type { Session } from '@supabase/supabase-js';
-import { error } from '@sveltejs/kit';
+import { error, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch, locals, params }) => {
@@ -21,5 +22,24 @@ export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 	} catch (err) {
 		console.log(err);
 		throw error(500, 'Something went wrong');
+	}
+};
+
+export const actions: Actions = {
+	rename: async ({ request, params }) => {
+		const gamedayId = +(params.gamedayId as string);
+
+		const data = await request.formData();
+		const title = data.get('title')?.toString();
+
+		try {
+			const gameday = await prisma.gameday.update({
+				where: { id: gamedayId },
+				data: { title }
+			});
+		} catch (err) {
+			console.log(err);
+			throw error(500, 'Something went wrong');
+		}
 	}
 };

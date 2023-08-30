@@ -5,6 +5,8 @@
 	import type { ColDef } from 'ag-grid-community';
 	import GridTable from '../../stats/GridTable.svelte';
 	import PreviousGames from '$lib/components/games/PreviousGames.svelte';
+	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data;
 	let gameday =
@@ -67,10 +69,41 @@
 		{ headerName: 'GF/MP', field: 'GF/MP', sortable: true },
 		{ headerName: 'GA/MP', field: 'GA/MP', sortable: true }
 	];
+
+	let showSaveTitle = false;
+	let loadingSaveTitle = false;
 </script>
 
 {#if gameday}
-	<h1 class="text-4xl text-center uppercase mt-12 mb-4">{formatDate(gameday.createdAt)}</h1>
+	<form
+		action="?/rename"
+		method="post"
+		class="flex flex-col items-end"
+		use:enhance={() => {
+			loadingSaveTitle = true;
+			return async () => {
+				loadingSaveTitle = false;
+				showSaveTitle = false;
+				invalidateAll();
+			};
+		}}
+	>
+		<input
+			name="title"
+			class="text-4xl text-center mt-12 mb-4 input input-ghost"
+			value={gameday.title || formatDate(gameday.createdAt)}
+			on:input={() => (showSaveTitle = true)}
+		/>
+		{#if showSaveTitle}
+			<button type="submit" class="btn btn-primary w-min">
+				{#if loadingSaveTitle}
+					<span class="loading loading-spinner" />
+				{:else}
+					Save
+				{/if}
+			</button>
+		{/if}
+	</form>
 {/if}
 <h2 class="text-4xl mt-12 mb-4 uppercase">Games</h2>
 {#if games && games.length}
