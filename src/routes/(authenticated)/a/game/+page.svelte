@@ -113,12 +113,11 @@
 	<div class="form-control gap-6 p-8">
 		{#if form?.error}
 			<div class="alert alert-error shadow-lg">
-				<div>
-					<Icon icon="material-symbols:error-outline-rounded" color="red" />
-					<span>{form.error}</span>
-				</div>
+				<Icon icon="material-symbols:error-outline-rounded" height="24" color="red" />
+				<span>{form.error}</span>
 			</div>
 		{/if}
+
 		<TimeInput {time} />
 		<!-- <div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}> -->
 		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
