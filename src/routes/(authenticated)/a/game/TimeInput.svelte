@@ -11,40 +11,19 @@
 	}
 </script>
 
-<div class="time-input">
-	<div class="controls">
-		<button type="button" class="btn btn-outline w-16" on:mousedown={() => changeNum(-5)}>-5</button
-		>
-		<button type="button" class="btn btn-outline w-12" on:mousedown={() => changeNum(-1)}>-1</button
-		>
-		<span class="time">{time}'</span>
-		<input type="hidden" bind:value={time} name="time" class="" max="130" min="1" />
-		<button type="button" class="btn btn-outline w-12" on:mousedown={() => changeNum(1)}>+1</button>
-		<button type="button" class="btn btn-outline w-16" on:mousedown={() => changeNum(5)}>+5</button>
-	</div>
+<div class="flex w-full justify-between items-center">
+	<button type="button" class="btn btn-outline w-20 text-xl" on:mousedown={() => changeNum(-5)}>
+		-5
+	</button>
+	<button type="button" class="btn btn-outline w-14 text-lg" on:mousedown={() => changeNum(-1)}>
+		-1
+	</button>
+	<span class="text-3xl">{time}'</span>
+	<input type="hidden" bind:value={time} name="time" class="" max="130" min="1" />
+	<button type="button" class="btn btn-outline w-14 text-lg" on:mousedown={() => changeNum(1)}>
+		+1
+	</button>
+	<button type="button" class="btn btn-outline w-20 text-xl" on:mousedown={() => changeNum(5)}>
+		+5
+	</button>
 </div>
-
-<style>
-	.time-input {
-		display: flex;
-		margin: auto;
-	}
-
-	.controls {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 8px;
-	}
-
-	.time {
-		font-size: 24px;
-		width: 64px;
-		text-align: center;
-	}
-
-	button {
-		font-size: 16px;
-		font-weight: 500;
-	}
-</style>
