@@ -1,3 +1,5 @@
+import type { Player, Game, Team } from '@prisma/client';
+
 export const enum AttemptType {
 	'Goal' = '0',
 	'OnTarget' = '1',
@@ -79,3 +81,13 @@ export interface DfTeamOverall {
 	W: number;
 	id: number;
 }
+
+export type GamesTeamsWinner = (Game & {
+	teamA: Team & {
+		teamA: Game[];
+	};
+	teamB: Team & {
+		teamB: Game[];
+	};
+	winner: Team | null;
+})[];

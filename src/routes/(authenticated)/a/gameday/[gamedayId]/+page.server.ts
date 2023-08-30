@@ -13,6 +13,9 @@ export const load: PageServerLoad = async ({ fetch, locals, params }) => {
 		const response = await fetch(
 			PUBLIC_DATA_API + 'player-stats?userId=' + userId + '&gamedayId=' + gamedayId
 		);
+		if (!response.ok) {
+			throw error(response.status, 'Something went wrong');
+		}
 		const data: playerStats = await response.json();
 		return { ...data };
 	} catch (err) {

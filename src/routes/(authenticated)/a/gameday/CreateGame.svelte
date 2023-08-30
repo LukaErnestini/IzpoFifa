@@ -1,17 +1,11 @@
 <script lang="ts">
+	import PreviousGames from '$lib/components/games/PreviousGames.svelte';
+	import type { GamesTeamsWinner } from '$lib/types';
 	import type { Player, Game, Team } from '@prisma/client';
 
 	export let gamedayId: number;
 	export let players: Player[];
-	export let games: (Game & {
-		teamA: Team & {
-			teamA: Game[];
-		};
-		teamB: Team & {
-			teamB: Game[];
-		};
-		winner: Team | null;
-	})[];
+	export let games: GamesTeamsWinner;
 
 	const team1 = players.map((player) => {
 		return { ...player, selected: false, hidden: false };
@@ -80,17 +74,7 @@
 <h2 class="text-2xl mt-12 mb-4">Previous games</h2>
 <div>
 	{#if games.length}
-		{#each games as game}
-			<a href="/a/game/{game.id}" class="block">
-				<span class={game.winnerId === game.teamA.id ? 'text-lg text-success' : ''}
-					>{game.teamA.name}</span
-				>
-				<span>VS</span>
-				<span class={game.winnerId === game.teamB.id ? 'text-lg text-success' : ''}
-					>{game.teamB.name}</span
-				>
-			</a>
-		{/each}
+		<PreviousGames {games} />
 	{:else}
 		<p class="text-s">No games played. Start one!</p>
 	{/if}

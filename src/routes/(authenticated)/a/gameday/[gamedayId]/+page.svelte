@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { DfPlayerOverall, DfShot, DfTeamOverall } from '$lib/types.js';
+	import type { DfPlayerOverall, DfShot, DfTeamOverall, GamesTeamsWinner } from '$lib/types.js';
 	import { formatDate } from '$lib/util.js';
 	import type { ColDef } from 'ag-grid-community';
 	import GridTable from '../../stats/GridTable.svelte';
+	import PreviousGames from '$lib/components/games/PreviousGames.svelte';
 
 	export let data;
 	let gameday =
 		data.finishedGamedays.find((gd) => gd.id === +$page.params.gamedayId) || data.activeGameday;
-	let games = gameday?.games;
-
-	console.log(data);
+	// forcing type here - could cause issues?
+	let games = gameday?.games as GamesTeamsWinner | undefined;
 
 	const shotsOverallColumnDefs: ColDef<DfShot>[] = [
 		{ headerName: 'Player', field: 'Player', pinned: 'left' },
@@ -74,35 +74,7 @@
 {/if}
 <h2 class="text-4xl mt-12 mb-4 uppercase">Games</h2>
 {#if games && games.length}
-	<div class="flex flex-col gap-1">
-		{#each games as game}
-			<a
-				href="/a/game/{game.id}"
-				class="w-full flex justify-between gap-8"
-				class:opacity-75={!game.finished}
-			>
-				<span>
-					{game.scoreTeamA}
-				</span>
-				<span>
-					<span class:text-success={game.winnerId === game.teamA.id}>
-						{game.teamA.name}
-					</span>
-					{#if !game.finished}
-						<span class="loading loading-spinner loading-xs" />
-					{:else}
-						<span>VS</span>
-					{/if}
-					<span class:text-success={game.winnerId === game.teamB.id}>
-						{game.teamB.name}
-					</span>
-				</span>
-				<span>
-					{game.scoreTeamB}
-				</span>
-			</a>
-		{/each}
-	</div>
+	<PreviousGames {games} />
 
 	<div class="form-control gap-8 w-full">
 		<h1 class="text-4xl text-center uppercase mt-12 mb-4">Stats</h1>
