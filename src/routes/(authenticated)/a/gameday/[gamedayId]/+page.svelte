@@ -6,8 +6,11 @@
 	import GridTable from '../../stats/GridTable.svelte';
 
 	export let data;
-	let gameday = data.finishedGamedays.find((gd) => gd.id === +$page.params.gamedayId);
+	let gameday =
+		data.finishedGamedays.find((gd) => gd.id === +$page.params.gamedayId) || data.activeGameday;
 	let games = gameday?.games;
+
+	console.log(data);
 
 	const shotsOverallColumnDefs: ColDef<DfShot>[] = [
 		{ headerName: 'Player', field: 'Player', pinned: 'left' },
@@ -66,23 +69,40 @@
 	];
 </script>
 
-<!-- TODO display stats -->
 {#if gameday}
 	<h1 class="text-4xl text-center uppercase mt-12 mb-4">{formatDate(gameday.createdAt)}</h1>
 {/if}
 <h2 class="text-4xl mt-12 mb-4 uppercase">Games</h2>
 {#if games && games.length}
-	{#each games as game}
-		<a href="/a/game/{game.id}" class="block">
-			<span class={game.winnerId === game.teamA.id ? 'text-lg text-success' : ''}
-				>{game.teamA.name}</span
+	<div class="flex flex-col gap-1">
+		{#each games as game}
+			<a
+				href="/a/game/{game.id}"
+				class="w-full flex justify-between gap-8"
+				class:opacity-75={!game.finished}
 			>
-			<span>VS</span>
-			<span class={game.winnerId === game.teamB.id ? 'text-lg text-success' : ''}
-				>{game.teamB.name}</span
-			>
-		</a>
-	{/each}
+				<span>
+					{game.scoreTeamA}
+				</span>
+				<span>
+					<span class:text-success={game.winnerId === game.teamA.id}>
+						{game.teamA.name}
+					</span>
+					{#if !game.finished}
+						<span class="loading loading-spinner loading-xs" />
+					{:else}
+						<span>VS</span>
+					{/if}
+					<span class:text-success={game.winnerId === game.teamB.id}>
+						{game.teamB.name}
+					</span>
+				</span>
+				<span>
+					{game.scoreTeamB}
+				</span>
+			</a>
+		{/each}
+	</div>
 
 	<div class="form-control gap-8 w-full">
 		<h1 class="text-4xl text-center uppercase mt-12 mb-4">Stats</h1>
