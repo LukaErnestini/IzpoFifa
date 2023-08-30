@@ -110,7 +110,7 @@
 />
 
 <form action="?/attempt" method="post" use:enhance={addEvent}>
-	<div class="form-control gap-6 p-8">
+	<div class="form-control gap-12 p-8">
 		{#if form?.error}
 			<div class="alert alert-error shadow-lg">
 				<Icon icon="material-symbols:error-outline-rounded" height="24" color="red" />
@@ -120,9 +120,21 @@
 
 		<TimeInput {time} />
 		<!-- <div class={form?.tag === 'shooter' ? 'border border-warning rounded-lg' : ''}> -->
-		<SelectPlayersInput inputName="shooter" players={gamePlayers} bind:selected={shooter} />
+		<SelectPlayersInput
+			inputName="shooter"
+			players={gamePlayers}
+			shown={gamePlayers}
+			bind:selected={shooter}
+			label="Shooter"
+		/>
 		<!-- </div> -->
-		<SelectPlayersInput inputName="assisted" players={shooterTeammates} bind:selected={assist} />
+		<SelectPlayersInput
+			inputName="assisted"
+			players={gamePlayers}
+			shown={shooterTeammates}
+			bind:selected={assist}
+			label="Assisted by"
+		/>
 		<div class="max-w-xl self-center">
 			<HalfSoccerPitchInput bind:x bind:y bind:distance />
 		</div>
@@ -133,7 +145,13 @@
 			<div class="divider" />
 			<ToggleInput bind:checked={penalty} label="Penalty" name="penalty" />
 			{#if penalty}
-				<SelectPlayersInput inputName="goalie" players={goaliePlayers} bind:selected={goalie} />
+				<SelectPlayersInput
+					inputName="goalie"
+					players={gamePlayers}
+					shown={goaliePlayers}
+					bind:selected={goalie}
+					label="Goalie"
+				/>
 			{/if}
 			<ToggleInput bind:checked={autogoal} label="Own Goal" name="autogoal" />
 			<div class="divider" />
